@@ -1,0 +1,575 @@
+<div id="blocco1">
+
+  <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+
+  <div class="iconeMobile">
+
+    <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+    <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+      <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+    </ng-container>
+
+    <ng-template #showLoginMobile>
+
+      <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+    </ng-template>
+
+    <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+  </div>
+
+  <div class="iconeDesktop">
+
+    <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+    <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+      <p (click)="logout()" style="cursor: pointer;" class="bordoDestro">Esci</p>
+
+    </ng-container>
+
+    <ng-template #showLoginDesktop>
+
+      <p><a [routerLink]="['/login']" style="cursor: pointer;" class="bordoDestro">Accedi</a></p>
+
+    </ng-template>
+
+    <a [routerLink]="['/carrello']" class="margineDestro">Carrello</a>
+
+  </div>
+  
+</div>
+
+<div id="intestazione">
+
+  <h2>Pagamento</h2>
+
+  <div id="miniRecap">
+    
+    <p>{{getNumeroArticoli()}} {{getNumeroArticoli() === 1 ? 'articolo' : 'articoli'}}</p> 
+    
+    <p>{{getPrezzoTotale()}}</p>
+
+  </div>
+
+</div>
+
+<div class="padding">
+
+  <div class="wrapRiepilogo">
+ 
+    <input type="checkbox"  id="menu-toggle" class="menu-toggle">
+  
+    <label for="menu-toggle" class="labelMain">
+      
+      <div id="bloccoFreccia">
+  
+        <h3>Nel carrello</h3>
+  
+        <img src="img/down-arrow.jpg" id="nuovo-arrow" alt="Arrow">
+  
+      </div>
+  
+    </label>
+  
+    <div class="scarpeScelte">
+  
+      <div class="pagamento">
+  
+        <div *ngFor="let item of carrello" class="stile-box">
+  
+          <img [src]="item.scarpa.immagine[0]" alt="Scarpa">
+  
+          <div class="stile-scritte">
+  
+            <h3>{{item.scarpa.nome}}</h3>
+  
+            <p>Taglia: {{item.taglia}}</p>
+  
+            <p>Colore: {{item.colore}}</p>
+  
+            <p>Quantità: {{item.quantita}}</p>
+  
+            <p>Prezzo: {{item.scarpa.prezzo | currency:'EUR'}}</p>
+  
+          </div>
+  
+        </div>
+  
+        <div id="recap">
+  
+          <div class="subtotale">
+  
+            <p>Subtotale</p><img src="img/question.png">
+    
+            <span *ngIf="getNumeroArticoli() > 0; else noItems" class="totale-span">{{totaleProdotti}}€</span>
+    
+            <ng-template #noItems><span class="totale-span">—</span></ng-template>
+            
+          </div>
+    
+          <div id="spedizione">
+
+            <p>Costi di spedizione e gestione previsti</p>
+
+            <span *ngIf="costoSpedizione === 0; else mostraCosto">Gratuita</span>
+
+            <ng-template #mostraCosto>{{costoSpedizione}}€</ng-template>
+
+          </div>
+          
+          <div id="totale">
+    
+            <p>Totale</p> 
+            <span *ngIf="getNumeroArticoli() > 0; else noItems" class="totale-span">{{getPrezzoTotale()}}</span>
+    
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  
+  <div id="paypalBanner">
+  
+    <h3>Opzioni di pagamento rapido</h3>
+
+    <button (click)="mostraPopup()"><img src="img/paypal.png"></button>
+    
+    <div class="popup" [class.visibile]="popupVisibile">
+
+      <div class="messaggioPopup">
+
+        <p>È solo per bellezza!</p>
+
+        <button (click)="chiudiPopup()">Chiudi</button>
+
+      </div>
+
+    </div>
+
+    <p>Selezionando una delle opzioni di pagamento qui sopra, confermi di aver letto, compreso e accettato quanto segue: <strong>Condizioni d'uso</strong>  di Nike, <strong>Condizioni di vendita</strong> e <strong>Informativa sui resi</strong>; confermi inoltre di aver letto il seguente documento Nike: Informativa sulla privacy.</p>
+    
+  </div>
+
+  <div id="form">
+
+    <h2>{{isRitiroVisible ? 'Ritiro' : 'Opzioni di consegna'}} 
+
+      <img src="img/check.png" *ngIf="isFormCompilato" id="immagineModifica">
+
+      <button *ngIf="isFormCompilato" id="modificaButton" (click)="modificaForm()">modifica</button>
+
+    </h2>
+
+    <div id="modalita">
+
+      <div id="spedizione2" (click)="mostraSpedizione()">
+
+        <img src="img/delivery-truck.png" >
+
+        <p>Spedizione</p>
+        
+      </div>
+
+      <div id="ritiro" (click)="mostraRitiro()">
+
+        <img src="img/maps-and-flags.png" >
+
+        <p>Ritiro</p>
+
+      </div>
+
+    </div>
+
+    <div id="paginaRitiro" *ngIf="isRitiroVisible">
+
+      <p>Seleziona uno store o la sede e clicca su ritira</p>
+    
+      <div class="inputIndirizzoRitiro">
+
+        <img src="img/loupe.png">
+
+        <input id="scrittaTop1" type="text" autocomplete="off" [(ngModel)]="scrittaTop1" (focus)="onFocus('ritiro')" (blur)="onBlur('ritiro')"/>
+
+        <label for="scrittaTop1" [class.active]="isFocusedRitiro || scrittaTop1">Indirizzo o codice postale</label>
+
+      </div>
+    
+      <p>L'uso di una posizione specifica, come l'indirizzo di casa o il codice postale, permetterà di ottimizzare l'accuratezza dei risultati</p>
+
+    </div>
+    
+    <div id="paginaSpedizione" *ngIf="isSpedizioneVisible">
+
+      <div class="inputNome">
+
+        <input id="scrittaTop2" type="text" autocomplete="off" [(ngModel)]="scrittaTop2" (focus)="onFocus('nome')" (blur)="onBlur('nome')"[class.inputErrore]="isTouchedNome && !nomeValido"/>
+
+        <label for="scrittaTop2" [class.active]="isFocusedNome || scrittaTop2" [class.labelErrore]="isTouchedNome && !nomeValido">Nome</label>
+
+        <div class="messaggioErrore" *ngIf="isTouchedNome && !nomeValido"> Il nome deve contenere solo lettere e spazi (min. 2 caratteri).</div>
+
+      </div>
+    
+      <div class="inputCognome">
+
+        <input id="scrittaTop3" type="text" autocomplete="off" [(ngModel)]="scrittaTop3" (focus)="onFocus('cognome')" (blur)="onBlur('cognome')"
+          [class.inputErrore]="isTouchedCognome && !cognomeValido"
+        />
+
+        <label for="scrittaTop3" [class.active]="isFocusedCognome || scrittaTop3" [class.labelErrore]="isTouchedCognome && !cognomeValido">
+          Cognome
+        </label>
+
+        <div class="messaggioErrore" *ngIf="isTouchedCognome && !cognomeValido">
+          Il cognome deve contenere solo lettere e spazi (min. 2 caratteri).
+        </div>
+
+      </div>
+      
+      <div class="inputIndirizzo">
+
+        <img src="img/loupe.png" [class.imgErrore]="isTouchedIndirizzo && !indirizzoValido"/>
+        
+        <input id="scrittaTop4" type="text" autocomplete="off" [(ngModel)]="scrittaTop4" (focus)="onFocus('indirizzo')"
+          (blur)="onBlur('indirizzo')"
+          [class.inputErrore]="isTouchedIndirizzo && !indirizzoValido"
+        />
+
+        <label for="scrittaTop4" [class.active]="isFocusedIndirizzo || scrittaTop4" [class.labelErrore]="isTouchedIndirizzo && !indirizzoValido"> Inizia a digitare l'indirizzo</label>
+
+        <div class="messaggioErrore" *ngIf="isTouchedIndirizzo && !indirizzoValido">
+          L'indirizzo deve contenere almeno 5 caratteri.
+        </div>
+        
+      </div>
+
+      <div class="inputEmail">
+
+        <input id="scrittaTop5" type="text" autocomplete="off" [(ngModel)]="scrittaTop5" (focus)="onFocus('Email')" (blur)="onBlur('Email')"
+          [class.inputErrore]="isTouchedEmail && !emailValido"
+        />
+
+        <label for="scrittaTop5" [class.active]="isFocusedEmail || scrittaTop5" [class.labelErrore]="isTouchedEmail && !emailValido">E-mail
+        </label>
+
+        <div class="messaggioErrore" *ngIf="isTouchedEmail && !emailValido">
+          Inserisci un'email valida
+        </div>
+
+      </div>
+    
+      <div class="inputTelefono">
+
+        <input id="scrittaTop6" type="text" autocomplete="off" [(ngModel)]="scrittaTop6" (focus)="onFocus('telefono')" (blur)="onBlur('telefono')" [class.inputErrore]="isTouchedTelefono && !telefonoValido"/>
+
+        <label for="scrittaTop6" [class.active]="isFocusedTelefono || scrittaTop6" [class.labelErrore]="isTouchedTelefono && !telefonoValido">
+          Numero di telefono
+        </label>
+
+        <div class="messaggioErrore" *ngIf="isTouchedTelefono && !telefonoValido">
+          Inserisci un numero valido (8-15 cifre).
+        </div>
+        
+      </div>
+    
+      <div id="salvaecontinua">
+
+        <button [ngClass]="{'active': isButtonActive}" [disabled]="!isButtonActive" (click)="onSalvaEContinua()">Salva e continua</button>
+
+      </div>
+      
+    </div>
+    
+    <div id="recapDati" *ngIf="isFormCompilato"> 
+
+      <h3>Riepilogo dei dati</h3>
+
+      <p>{{scrittaTop2}}</p>
+
+      <p>{{scrittaTop3}}</p>
+
+      <p>{{scrittaTop4}}</p>
+
+      <p>{{scrittaTop5}}</p>
+
+      <p>{{scrittaTop6}}</p>
+
+    </div>
+
+    <div id="recapSpedizione" *ngIf="isFormCompilato">
+
+      <h3>Velocità di spedizione</h3>
+
+      <p>Costo: {{getCostoSpedizione()}}€</p>
+
+      <p>Arriverà entro il giorno mar 7 gen</p>
+
+    </div>
+
+    <div id="pagamento">
+
+      <h3 id="titoloPagamento">Pagamento  <img *ngIf="mostraSoloMetodoScelto" src="img/check.png" class="spuntaVerde">
+
+        <button *ngIf="mostraSoloMetodoScelto" id="modificaMetodo" (click)="modificaMetodo()">modifica</button>
+
+      </h3>
+
+      <div *ngIf="!mostraSoloMetodoScelto">
+
+        <div id="tuttoPagamento" *ngIf="isFormCompilato">  
+
+          <div id="sceltaPaese">
+
+          <p>Paese/regione di fatturazione</p>
+        
+          <div *ngIf="!isPostoScelto">
+  
+            <span id="cambiapaese">{{paeseScelto}}</span>
+  
+            <span id="modificaPaese" (click)="modificaPaese()">Modifica</span>
+  
+          </div>
+        
+          <div *ngIf="isPostoScelto">
+  
+            <div class="relativeFreccia">
+  
+              <label for="postoscelto">Seleziona paese/regione*</label>
+  
+              <div class="selectPaesi">
+  
+                <select name="postoscelto" id="postoscelto" [(ngModel)]="paeseScelto" (change)="salvaPaese()">
+  
+                  <option *ngFor="let paese of paesi" [value]="paese">{{paese}}</option>
+  
+                </select>
+  
+                <img src="img/down-arrow.jpg" alt="Freccia" class="frecciaImg">
+  
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          </div>
+        
+          <div id="metodoPagamento">
+  
+            <p>Seleziona il metodo di pagamento</p>
+  
+            <div id="checkMetodo">
+  
+            <div class="stileRadios">
+  
+              <input type="radio" id="cartaCredito" name="metodoPagamento" [(ngModel)]="metodoSelezionato" value="carta di credito">
+              <label for="cartaCredito"><img src="img/credit-card.png" id="imgCarta">Carta di credito o debito</label>
+  
+            </div>
+  
+            <div class="stileRadios immagineRid">
+  
+              <input type="radio" id="Paypal" name="metodoPagamento" [(ngModel)]="metodoSelezionato" value="Paypal">
+              <label for="Paypal"><img src="img/paypal.png" id="imgPaypal"></label>
+              
+            </div>
+  
+            <div class="stileRadios immagineRid">
+  
+              <input type="radio" id="GooglePay" name="metodoPagamento" [(ngModel)]="metodoSelezionato" value="Google Pay">
+              <label for="GooglePay"><img src="img/googlePay.png" id="imgGoogle"></label>
+  
+            </div>
+  
+            <div id="metodoCarta" *ngIf="metodoSelezionato === 'carta di credito'">
+  
+              <div id="aggiungiCarta">
+
+                <p>Aggiungi carta</p>
+
+                <div class="numeroCarta">
+
+                  <input id="numeroCarta" type="text" autocomplete="off" [(ngModel)]="numeroCarta" (focus)="onFocus('numeroCarta')"
+                    (blur)="onBlur('numeroCarta')"
+                    [class.inputErrore]="isTouchedNumeroCarta && !numeroCartaValido"
+                  />
+
+                  <label for="numeroCarta" [class.active]="isFocusedNumeroCarta || numeroCarta" [class.labelErrore]="isTouchedNumeroCarta && !numeroCartaValido">Numero carta
+                  </label>
+
+                  <div class="messaggioErrore" *ngIf="isTouchedNumeroCarta && !numeroCartaValido">Inserisci un numero di carta valido</div>
+
+                </div>
+
+                <div class="dataCarta">
+
+                  <input id="dataCarta" type="text" autocomplete="off" [(ngModel)]="dataCarta" (focus)="onFocus('dataCarta')"
+                    (blur)="onBlur('dataCarta')"
+                    [class.inputErrore]="isTouchedDataCarta && !dataCartaValida"
+                  />
+
+                  <label for="dataCarta" [class.active]="isFocusedDataCarta || dataCarta" 
+                    [class.labelErrore]="isTouchedDataCarta && !dataCartaValida">Data scadenza (MM/AA)
+                  </label>
+
+                  <div class="messaggioErrore" *ngIf="isTouchedDataCarta && !dataCartaValida">
+                    Inserisci una data valida (MM/AA)
+                  </div>
+
+                </div>
+
+                <div class="cvvCarta">
+
+                  <input id="cvvCarta" type="text" autocomplete="off" [(ngModel)]="cvvCarta" (focus)="onFocus('cvvCarta')" 
+                    (blur)="onBlur ('cvvCarta')"
+                    [class.inputErrore]="isTouchedCvvCarta && !cvvCartaValido"
+                  />
+
+                  <label for="cvvCarta" [class.active]="isFocusedCvvCarta || cvvCarta" 
+                    [class.labelErrore]="isTouchedCvvCarta && !cvvCartaValido">CVV
+                  </label>
+
+                  <div class="messaggioErrore" *ngIf="isTouchedCvvCarta && !cvvCartaValido">
+                    Inserisci un CVV valido (3 o 4 cifre)
+                  </div>
+
+                </div>
+                
+                <p id="whereCVV" (click)="mostraPopup()">Where is my CVV?</p>
+
+              </div>
+
+              <div id="confermaIndirizzo">
+
+                <p>Indirizzo di spedizione</p>
+
+                <div class="grigio">
+
+                  <p>{{scrittaTop2}} {{scrittaTop3}}</p>
+                  <p>{{scrittaTop4}}</p>
+                  <p>{{paeseScelto}}</p>
+
+                </div>
+
+              </div>
+
+              <button id="bottoneCarta" [ngClass]="{'active': isCartaButtonActive}" [disabled]="!isCartaButtonActive"
+                (click)="confermaMetodo('Carta di credito')" (click)="mostraVerificaSezione()">
+                Passa alla verifica dell'ordine
+              </button>
+             
+            </div>
+            
+            <div id="metodoPaypal" *ngIf="metodoSelezionato === 'Paypal'">
+  
+              <p>Dopo aver confermato l'ordine sarai reinderizzato al sito di Paypal.</p>
+
+              <button id="bottonePaypal" (click)="confermaMetodo('PayPal')" (click)="mostraVerificaSezione()">
+                Passa alla verifica dell'ordine
+              </button>
+              
+            </div>
+            
+            <div id="metodoGoogle" *ngIf="metodoSelezionato === 'Google Pay'">
+  
+              <button id="bottoneGoogle" (click)="confermaMetodo('Google Pay')" (click)="mostraVerificaSezione()">
+                Passa alla verifica dell'ordine
+              </button>
+              
+            </div>
+            
+            </div>
+  
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="mostraSoloMetodoScelto" id="riepilogoMetodo">
+
+        <p>Metodo di pagamento</p>
+
+        <div class="metodoScelto">
+
+          <img [src]="immagineMetodoFinale" 
+          [ngClass]="{'paypalMetodo': metodoSelezionato === 'PayPal', 'googlePayMetodo': metodoSelezionato === 'Google Pay','cartaMetodo': metodoSelezionato === 'Carta di credito'}" class="imgMetodo">
+
+          {{metodoSelezionato}}
+
+        </div>
+
+      </div>
+  
+    </div>
+
+    <div id="verificaOrdine" >
+
+      <h3 id="titoloVerifica">Verifica dell'ordine</h3>
+
+      <div id="mostraVerifica" *ngIf="mostraVerificaOrdine">
+
+        <p>Facendo clic sul pulsante "Effettua pagamento", confermi di aver letto, compreso e accettato i <span class="stileVerifica">Condizioni d'uso</span>, <span class="stileVerifica">Condizioni di vendita</span> e <span class="stileVerifica">Informativa sui resi</span>, oltre ad aver letto l'<span class="stileVerifica">Informativa sulla privacy di Nike.</span></p>
+
+        <button id="confermaOrdine" (click)="effettuaPagamento()">Effettua pagamento</button>
+
+      </div>
+
+    </div>
+    
+  </div>
+  
+</div>
+
+<div id="footer_sottomenu_2">
+
+  <ul class="colonne_3">
+  </ul>
+
+</div>
+
+<div id="footer_sottomenu_3">
+
+    <ul class="colonne_4">
+
+        <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+        <li class="guide"> 
+
+            <div id="guide">
+
+                <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+                <nav id="minimenu">
+
+                    <ul>
+                        <li>Nike Air</li>
+                        <li>Nike Air Max</li>
+                        <li>Nike FlyEase</li>
+                        <li>Nike Pegasus</li>
+                        <li>Nike React</li>
+                        <li>Nike Vaporfly</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </li>
+        <li>Condizioni d'uso</li>
+        <li>Condizioni di vendita</li>
+        <li>Info Legali e Societarie</li>
+        <li>Informativa sulla privacy e sui cookie</li>
+        <li>Impostazioni sulla privacy e sui cookie</li>
+    </ul>
+
+</div>

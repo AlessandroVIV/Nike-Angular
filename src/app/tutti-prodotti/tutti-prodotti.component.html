@@ -1,0 +1,433 @@
+  
+  <div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="iconeMobile">
+
+      <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+        <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+      </ng-container>
+
+      <ng-template #showLoginMobile>
+
+        <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+    </div>
+  
+    <div class="iconeDesktop">
+
+      <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+        <p (click)="logout()" style="cursor: pointer;" class="bordoDestro">Esci</p>
+
+      </ng-container>
+
+      <ng-template #showLoginDesktop>
+
+        <p><a [routerLink]="['/login']" style="cursor: pointer;" class="bordoDestro">Accedi</a></p>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']" class="margineDestro">Carrello</a>
+
+    </div>
+    
+  </div>
+
+  <div id="blocco2">
+
+    <div class="slider-container">
+
+            <div class="slider" [style.transform]="sliderTransform">
+
+                <div class="slide">
+                    <p>Tutti i nuovi arrivi<br><a href="#">Acquista</a></p>
+                </div>
+
+                <div class="slide" id="piccolo">
+                    <strong>PROROGA RESI PER LE FESTIVITÀ</strong>
+                    <br>
+                    Resi estesi a 60 giorni per acquisti Nike eseguiti tra il 1° novembre e il 31 dicembre 2024.
+                    <a href="#">Scopri di più</a> 
+                    o <a href="#">Unisciti a noi</a>
+                </div>
+
+                <div class="slide"><strong>Scopri le offerte esclusive di Nike per la stagione!</strong>
+                    <br> 
+                    Solo <a href="#">qui</a> per un periodo limitato.
+                </div>
+
+            </div>
+
+    </div>
+  
+  </div>
+
+  <div id="contatoreRisul">
+
+        <h2>Scarpe</h2>  
+
+        <p>{{numeroRisultati}} <span id="risultato">risultati trovati</span></p>
+
+  </div>
+  
+  <div id="opzioni">
+
+    <div class="ricerca_scarpa">
+        <input type="text" id="ricerca" placeholder="Cerca tutte le scarpe" autocomplete="off" [(ngModel)]="CercaScarpaProdotti" (input)="cercaScarpa()"/>
+    </div>
+
+    <div class="menu-container">
+        
+          <button (click)="apriMenu()" class="apriMenu">Scegli filtri <img src="img/settings-sliders.png"></button>
+      
+            <div [class.menuVisibile]="isMenuVisible" [class.menuNascosto]="!isMenuVisible" class="fullscreen">
+    
+            <div class="contenutoMenu">
+                  
+              <div id="parte1">
+
+                <h3>Filtri</h3>
+
+                <button (click)="apriMenu()" class="chiudiMenu"><i class="bi bi-x-circle-fill"></i></button>
+                        
+              </div>
+                
+              <ul id="radios">
+
+                <h4>Ordina per</h4>
+
+                <li>
+
+                  <input type="radio" name="group1" id="radio2" (click)="filtraProdotti('nuovo_arrivi')">
+                  <label for="radio2">Nuovi Arrivi</label>
+
+                </li>
+
+                <li>
+
+                  <input type="radio" name="group1" id="radio3" (click)="filtraProdotti('best_seller')">
+                  <label for="radio3">Best Seller</label>
+
+                </li>
+
+              </ul>
+
+              <ul id="checksCategoria">
+
+                <h4>Categoria</h4>
+            
+                <li>
+                    <input type="checkbox" id="categoriaSneakers" (change)="aggiornaFiltroCategoria('Sneakers', $event.target.checked)">
+                    <label for="categoriaSneakers">Sneakers</label>
+                </li>
+            
+                <li>
+                    <input type="checkbox" id="categoriaTraining" (change)="aggiornaFiltroCategoria('Training', $event.target.checked)">
+                    <label for="categoriaTraining">Training</label>
+                </li>
+            
+                <li>
+                    <input type="checkbox" id="categoriaRunning" (change)="aggiornaFiltroCategoria('Running', $event.target.checked)">
+                    <label for="categoriaRunning">Running</label>
+                </li>
+            
+                <li>
+                    <input type="checkbox" id="categoriaBasket" (change)="aggiornaFiltroCategoria('Basket', $event.target.checked)">
+                    <label for="categoriaBasket">Basket</label>
+                </li>
+            
+                <li>
+                    <input type="checkbox" id="categoriaTrailRunning" (change)="aggiornaFiltroCategoria('Trail Running', $event.target.checked)">
+                    <label for="categoriaTrailRunning">Trail Running</label>
+                </li>
+
+              </ul>
+            
+              <ul id="checks">
+
+                  <h4>Genere</h4>
+
+                  <li>
+
+                    <input type="checkbox" id="check1" (change)="aggiornaFiltroGenere('Donna', $event.target.checked)">
+                    <label for="check1">Donna</label>
+
+                  </li>
+
+                  <li>
+
+                    <input type="checkbox" id="check2" (change)="aggiornaFiltroGenere('Uomo', $event.target.checked)">
+                    <label for="check2">Uomo</label>
+
+                  </li>
+
+                  <li>
+
+                    <input type="checkbox" id="check3" (change)="aggiornaFiltroGenere('Unisex', $event.target.checked)">
+                    <label for="check3">Unisex</label>
+
+                  </li>
+
+              </ul>
+                
+              <ul id="checks2">
+
+                  <h4>Acquista per prezzo</h4>
+
+                  <li>
+
+                    <input type="checkbox" id="check1.1" (change)="aggiornaFiltroPrezzo('50-100', $event.target.checked)">
+                    <label for="check1.1">50 € - 100 €</label>
+
+                  </li>
+
+                  <li>
+
+                    <input type="checkbox" id="check2.1" (change)="aggiornaFiltroPrezzo('100-150', $event.target.checked)">
+                    <label for="check2.1">100 € - 150 €</label>
+
+                  </li>
+
+                  <li>
+
+                    <input type="checkbox" id="check3.1" (change)="aggiornaFiltroPrezzo('150+', $event.target.checked)">
+                    <label for="check3.1">Superiore a 150 €</label>
+
+                  </li>
+
+              </ul>
+                  
+              <ul id="checks3"> 
+
+                  <h4>Acquista per colore</h4>
+
+                  <div id="ordineColori">
+
+                    <li>
+
+                      <input type="checkbox" id="check4.2" class="bianca" (change)="aggiornaFiltroColore('Bianco', $event.target.checked)">
+                      <label for="check4.2">Bianco</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check7.2" class="argento" (change)="aggiornaFiltroColore('Nero', $event.target.checked)">
+                      <label for="check1.2">Argento</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check6.2" class="gialla" (change)="aggiornaFiltroColore('Giallo', $event.target.checked)">
+                      <label for="check6.2">Giallo</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check5.2" class="grigia" (change)="aggiornaFiltroColore('Grigio', $event.target.checked)">
+                      <label for="check5.2">Grigio</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check9.2" class="verde" (change)="aggiornaFiltroColore('Nero', $event.target.checked)">
+                      <label for="check1.2">Verde</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check2.2" class="blu" (change)="aggiornaFiltroColore('Blu', $event.target.checked)">
+                      <label for="check2.2">Blu</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check3.2" class="rossa" (change)="aggiornaFiltroColore('Rosso', $event.target.checked)">
+                      <label for="check3.2">Rosso</label>
+
+                    </li>
+
+                    <li>
+
+                      <input type="checkbox" id="check8.2" class="oro" (change)="aggiornaFiltroColore('Nero', $event.target.checked)">
+                      <label for="check1.2">Oro</label>
+
+                    </li>
+                    
+                    <li>
+
+                      <input type="checkbox" id="check1.2" class="nera" (change)="aggiornaFiltroColore('Nero', $event.target.checked)">
+                      <label for="check1.2">Nero</label>
+
+                    </li>
+                 
+                  </div>
+
+              </ul>
+                    
+            </div>
+    
+          </div>
+    
+    </div>
+
+  </div>
+
+  <div class="scarpe_mostrate">
+
+        <div *ngFor="let prodotto of prodotti" class="scarpa_singola">
+
+            <a [routerLink]="['/prodotti', prodotto.id]">
+
+              <div class="immagine_contenitore">
+
+                <img [src]="prodotto.immagini[0]?.url" class="immagini_scarpe">
+
+
+              </div>
+
+              <div class="testo_contenitore">
+
+                <h3>{{prodotto.nome}}</h3>
+
+                <p>Categoria: {{prodotto.categoria}}</p>
+
+                <p>{{ prodotto.prezzo | currency:'EUR':'symbol':'1.2-2' }}</p>
+
+              </div>
+
+            </a>
+            
+          </div>
+        
+  </div>
+
+  <h4 id="avviso">{{numeroRisultati}} risultati trovati <br><br> Nessuna scarpa corrisponde ai criteri di ricerca</h4>
+
+  <div id="footer_sottomenu_2">
+
+  <ul class="colonne_3">
+
+      <li id="bordoTop">
+
+          <input type="checkbox" id="Risorse" class="menu-toggle">
+          <label for="Risorse">Risorse <img src="img/down-arrow.jpg"></label>
+
+          <ul class="sottomenu_3">
+
+              <li>Gift card</li>
+              <li>Trova un negozio</li>
+              <li>Nike Journal</li>
+              <li>Diventa member</li>
+              <li>Sconto studenti</li>
+              <li>Feedback</li>
+              <li>Codici promozionali</li>
+              
+
+          </ul>
+      
+      </li>
+      
+      <li>
+
+          <input type="checkbox" id="Assistenza" class="menu-toggle">
+          <label for="Assistenza">Assistenza <img src="img/down-arrow.jpg"></label>
+
+          <ul class="sottomenu_3">
+
+              <li>Hai bisogno di aiuto?</li>
+              <li>Stato ordine</li>
+              <li>Spedizione e consegna</li>
+              <li>Resi</li>
+              <li>Opzioni di pagamento</li>
+              <li>Contattaci</li>
+              <li>Recensioni</li>
+              <li>Assistenza Codici promozionali Nike</li>
+              
+
+          </ul>
+
+      </li>
+      
+      <li>
+
+          <input type="checkbox" id="Azienda" class="menu-toggle">
+          <label for="Azienda">Azienda <img src="img/down-arrow.jpg"></label>
+
+          <ul class="sottomenu_3">
+
+              <li>Informazioni su Nike</li>
+              <li>News</li>
+              <li>Lavora con noi</li>
+              <li>Investitori</li>
+              <li>Sostenibilità</li>
+              <li>Obiettivo</li>
+              
+
+          </ul>
+
+      </li>
+
+      <li>
+        <div class="allineaCentro">
+            <img src="img/globe.png"> <p>Italia</p>
+        </div>
+      </li>
+
+  </ul>
+
+  </div>
+
+  <div id="footer_sottomenu_3">
+
+  <ul class="colonne_4">
+
+      <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+      <li class="guide"> 
+
+          <div id="guide">
+
+              <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+              <nav id="minimenu">
+
+                  <ul>
+                      <li>Nike Air</li>
+                      <li>Nike Air Max</li>
+                      <li>Nike FlyEase</li>
+                      <li>Nike Pegasus</li>
+                      <li>Nike React</li>
+                      <li>Nike Vaporfly</li>
+                  </ul>
+
+              </nav>
+
+          </div>
+
+      </li>
+      <li>Condizioni d'uso</li>
+      <li>Condizioni di vendita</li>
+      <li>Info Legali e Societarie</li>
+      <li>Informativa sulla privacy e sui cookie</li>
+      <li>Impostazioni sulla privacy e sui cookie</li>
+  </ul>
+
+  </div>

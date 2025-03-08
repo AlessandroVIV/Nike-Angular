@@ -1,0 +1,629 @@
+<div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="iconeMobile">
+
+      <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+        <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+      </ng-container>
+
+      <ng-template #showLoginMobile>
+
+        <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+    </div>
+  
+    <div class="iconeDesktop">
+
+      <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+        <p (click)="logout()" style="cursor: pointer;" class="bordoDestro">Esci</p>
+
+      </ng-container>
+
+      <ng-template #showLoginDesktop>
+
+        <p><a [routerLink]="['/login']" style="cursor: pointer;" class="bordoDestro">Accedi</a></p>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']" class="margineDestro">Carrello</a>
+
+    </div>
+    
+</div>
+  
+<div id="blocco3">
+
+    <ul class="colonne">
+        <li>
+            <input type="checkbox" id="novita" class="menu-toggle">
+            <label for="novita">Novità e in evidenza</label>
+            <ul class="sottomenu">
+                <li id="voce1">
+                    <input type="checkbox" id="in-evidenza-novita" class="menu-toggle">
+                    <label for="in-evidenza-novita">In evidenza</label>
+                    <ul id= "in-evidenza-sottomenu" class="sottomenu-secondo">
+                        <li id="scorri_giu">Scopri lo Sport</li>
+                        <li id="scorri_catalogo">Vai al catalogo</li>
+                    </ul>
+                </li>
+                <li id="scorri_uscite">Nuovi arrivi</li>
+                <li id="scorri_seller">Best seller</li>
+                <li>Di tendenza</li>
+            </ul>
+        </li>
+    
+        <li>
+            <input type="checkbox" id="uomo" class="menu-toggle">
+            <label for="uomo">Uomo</label>
+            <ul class="sottomenu">
+                <li>In evidenza</li>
+                <li>Scarpe</li>
+                <li>Abbigliamento</li>
+                <li>Scopri lo sport</li>
+                <li>Accessori</li>
+            </ul>
+        </li>
+    
+        <li>
+            <input type="checkbox" id="donna" class="menu-toggle">
+            <label for="donna">Donna</label>
+            <ul class="sottomenu">
+                <li>In evidenza</li>
+                <li>Scarpe</li>
+                <li>Abbigliamento</li>
+                <li>Scopri lo sport</li>
+                <li>Accessori</li>
+            </ul>
+        </li>
+
+        <li>
+            <input type="checkbox" id="kids" class="menu-toggle">
+            <label for="kids">Kids</label>
+            <ul class="sottomenu">
+                <li>In evidenza</li>
+                <li>Scarpe</li>
+                <li>Abbigliamento</li>
+                <li>Kids per età</li>
+                <li>Accessori</li>
+            </ul>
+        </li>
+    </ul>
+    
+</div>
+
+<div id="blocco2">
+
+    <div class="slider-container">
+
+        <div class="slider" [style.transform]="sliderTransform">
+
+          <div class="slide">
+            <p>Tutti i nuovi arrivi<br><a href="#">Acquista</a></p>
+          </div>
+
+          <div class="slide" id="piccolo">
+            <strong>PROROGA RESI PER LE FESTIVITÀ</strong>
+            <br>
+            Resi estesi a 60 giorni per acquisti Nike eseguiti tra il 1° novembre e il 31 dicembre 2024.
+            <a href="#">Scopri di più</a> 
+            o <a href="#">Unisciti a noi</a>
+          </div>
+
+          <div class="slide"><strong>Scopri le offerte esclusive di Nike per la stagione!</strong>
+            <br> 
+            Solo <a href="#">qui</a> per un periodo limitato.
+          </div>
+
+        </div>
+
+    </div>
+  
+</div>
+
+<div id="banner">
+    <img src="video/Banner-gif.gif">
+</div>
+
+<div id="separatore">
+
+    <div class="contenitore-titolo">
+
+        <h2>Tutte le migliori novità</h2>
+
+        <div class="bottoni-slider">
+            
+            <button class="bottone-slider bottone-sinistra"><img src="img/left-arrow.png"></button>
+            <button class="bottone-slider bottone-destra"><img src="img/right-arrow.png"></button>
+
+        </div>
+
+    </div>
+
+    <div class="contenitore-slider">
+
+        <div id="migliori_novita">
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine1.jpg">
+                <p>Tuta Nike Tech Wovan</p>
+
+            </div>
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine2.png">
+                <p>Mercurial Dream Speed</p>
+
+            </div>
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine3.jpg">
+                <p>Articoli per l'inverno</p>
+
+            </div>
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine4.png">
+                <p>Articoli da training - Uomo</p>
+
+            </div>
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine5.jpg">
+                <p>Nike Style By</p>
+
+            </div>
+
+            <div class="descrizione_img">
+
+                <img src="img/immagine6.jpg">
+                <p>Articoli da running</p>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="best_sellers">
+
+    <h2 id="destinazione_seller">Le nostre scarpe più vendute</h2>
+
+    <div class="ricerca_scarpa">
+        <input type="text" placeholder="Cerca tra le best seller" [(ngModel)]="CercaBestSeller" (input)="cercaBestSeller()"/>
+    </div>
+
+    <div class="scarpe_mostrate">
+
+
+        <div *ngFor="let prodotto of prodottiFiltratiBestSeller" class="scarpa_singola">
+    
+            <a [routerLink]="['/prodotti', prodotto.id]">
+
+            <div class="immagine_contenitore">
+    
+                <img [src]="prodotto.immagini[0]?.url" class="immagini_scarpe">
+    
+            </div>
+    
+            <h3>{{prodotto.nome}}</h3>
+    
+            <p>Categoria: {{prodotto.categoria}}</p>
+    
+            <p>Prezzo: {{prodotto.prezzo | currency:'EUR':'symbol':'1.2-2'}}</p>
+
+            </a>
+
+        </div>
+        
+    </div>
+
+</div>
+
+<div id="separatore2">
+
+    <h2>Scopri di più</h2>
+
+    <div id="sezione_tipologia">
+
+        <div class="descrizione_img">
+
+            <div class="contenitore_img">
+                <img src="img/donna.jpg" alt="Donna">
+                <p class="sovra_testo">Donna</p>
+            </div>
+
+        </div>
+
+        <div class="descrizione_img">
+
+            <div class="contenitore_img">
+                <img src="img/uomo.jpg" alt="Uomo">
+                <p class="sovra_testo">Uomo</p>
+            </div>
+
+        </div>
+
+        <div class="descrizione_img">
+            
+            <div class="contenitore_img">
+                <img src="img/kids.jpg" alt="Kids">
+                <p class="sovra_testo">Kids</p>
+
+            </div>
+
+        </div>
+
+        <div class="descrizione_img">
+            <div class="contenitore_img">
+                <img src="img/Teenager.jpg" alt="Teenager">
+                <p class="sovra_testo_4">Teenager</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="padding_sezione">
+
+    <div class="ultime_uscite">
+
+        <div class="contenitore-titolo">
+
+            <h2 id="destinazione_uscite">Le nostre ultime uscite</h2>
+
+            <div class="ricerca_scarpa">
+                <input type="text" placeholder="Cerca tra i nuovi arrivi" [(ngModel)]="CercaNuoviArrivi" (input)="cercaArrivi()"/>
+            </div>
+
+            <div class="bottoni-slider">
+
+                <button class="bottone-slider bottone-sinistra" id="ultimeUscite-sinistra">
+                    <img src="img/left-arrow.png" alt="Sinistra">
+                </button>
+
+                <button class="bottone-slider bottone-destra" id="ultimeUscite-destra">
+                    <img src="img/right-arrow.png" alt="Destra">
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="scarpe_mostrate" id="ultimeUsciteSlider">
+
+            <div *ngFor="let prodotto of prodottiFiltratiNuoviArrivi" class="scarpa_singola">
+
+                <a [routerLink]="['/prodotti', prodotto.id]">
+
+                    <div class="immagine_contenitore">
+                        <img src="{{ prodotto.immagini[0]?.url }}" class="immagini_scarpe" alt="{{ prodotto.nome }}">
+                    </div>
+
+                    <h3>{{ prodotto.nome }}</h3>
+
+                    <p>Categoria: {{ prodotto.categoria }}</p>
+
+                    <p>Prezzo: {{ prodotto.prezzo | currency:'EUR':'symbol':'1.2-2' }}</p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="padding_sezione">
+
+    <div class="contenitore-titolo">
+
+        <h2 id="destinazione">Scopri lo sport</h2>
+
+        <div class="bottoni-slider">
+
+            <button class="bottone-slider bottone-sinistra" id="scopriSport-sinistra">
+                <img src="img/left-arrow.png" alt="Sinistra">
+            </button>
+
+            <button class="bottone-slider bottone-destra" id="scopriSport-destra">
+                <img src="img/right-arrow.png" alt="Destra">
+            </button>
+
+        </div>
+
+    </div>
+
+    <label for="sports" id="sports">Ti interessa un'attività particolare?</label>
+
+    <select name="sports" [(ngModel)]="CategoriaSelezionata">
+        <option value="">Tutte le categorie</option>
+        <option value="Sneakers">Sneakers</option>
+        <option value="Training">Training</option>
+        <option value="Running">Running</option>
+        <option value="Basket">Basket</option>
+        <option value="Trail Running">Trial Running</option>
+    </select>
+
+    <div class="scarpe_mostrate" id="scopriSportSlider">
+
+        <div *ngFor="let prodotto of prodottiFiltratiCategoria()" class="scarpa_singola">
+
+            <a [routerLink]="['/prodotti', prodotto.id]">
+
+                <div class="immagine_contenitore">
+                    <img src="{{ prodotto.immagini[0]?.url }}" class="immagini_scarpe" alt="{{ prodotto.nome }}">
+                </div>
+
+                <h3>{{ prodotto.nome }}</h3>
+
+                <p>Categoria: {{ prodotto.categoria }}</p>
+
+                <p>Prezzo: {{ prodotto.prezzo | currency:'EUR':'symbol':'1.2-2' }}</p>
+
+            </a>
+
+        </div>
+        
+    </div>
+
+</div>
+
+<div class="padding_sezione" id="destinazione_catalogo">
+
+    <div id="prodotti">
+
+        <h2>Ti interessa qualcosa in particolare?</h2>
+
+        <h3> Tutti i nostri prodotti nel dettaglio!</h3>
+    
+        <a [routerLink]="['/prodotti']">Visualizza il catalogo completo</a>
+    
+    </div>
+    
+</div>
+
+<div id="separatore2">
+
+    <div class="contenitore-titolo">
+
+        <h2>Scopri di più</h2>
+
+        <div class="bottoni-slider">
+            <button class="bottone-slider sinistra"><img src="img/left-arrow.png"></button>
+            <button class="bottone-slider destra"><img src="img/right-arrow.png"></button>
+        </div>
+
+    </div>
+
+    <div id="contenitore-slider" class="contenitore-slider">
+
+        <div id="traccia-slider" class="traccia-slider">
+
+            <div class="descrizione_img"><img src="img/footer1.png" alt="Donna"></div>
+            <div class="descrizione_img"><img src="img/footer2.png" alt="Uomo"></div>
+            <div class="descrizione_img"><img src="img/footer3.png" alt="Kids"></div>
+            <div class="descrizione_img"><img src="img/footer4.png" alt="Teenager"></div>
+            <div class="descrizione_img"><img src="img/footer5.png" alt="Teenager"></div>
+            <div class="descrizione_img"><img src="img/footer6.png" alt="Teenager"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="footer_sottomenu">
+
+    <ul class="colonne2">
+        <li>
+
+            <input type="checkbox" id="Scarpe" class="menu-toggle">
+            <label for="Scarpe">Scarpe</label>
+
+            <ul class="sottomenu2">
+
+                <li>Scarpe da running bianche</li>
+                <li>Nike P-6000</li>
+                <li>Nike Initiator</li>
+                <li>Scarpe V2K Run</li>
+                <li>Nike Shox</li>
+                <li>Scarpe Nike Waffle</li>
+                <li>Nike Cortez</li>
+                <li>Nike Vomero</li>
+                <li>Scarpe sportive nere</li>
+
+            </ul>
+        
+        </li>
+        <li>
+
+            <input type="checkbox" id="Abbigliamento" class="menu-toggle">
+            <label for="Abbigliamento">Abbigliamento</label>
+
+            <ul class="sottomenu2">
+
+                <li>Pantaloni da yoga</li>
+                <li>Pantaloni jogger Tech Fleece</li>
+                <li>Tech Fleece</li>
+                
+
+            </ul>
+
+        </li>
+        <li>
+
+            <input type="checkbox" id="Bambini" class="menu-toggle">
+            <label for="Bambini">Bambini</label>
+
+            <ul class="sottomenu2">
+
+                <li>Scarpe nere per bambina</li>
+                <li>Kids' Black Shoes</li>   
+
+            </ul>
+
+        </li>
+
+        <li>
+
+            <input type="checkbox" id="Evidenza" class="menu-toggle">
+            <label for="Evidenza">In Evidenza</label>
+
+            <ul class="sottomenu2">
+
+                <li>Squadre di calcio</li>
+                <li>Calcio</li>
+                <li>Nike Inghilterra</li>
+                <li>Nike Run Club</li>
+                <li>Nike Training Club</li>
+                <li>Nike Black Friday</li>
+                <li>Giacche Nike Black Friday</li>
+                <li>Abbigliamento Nike Black Friday</li>
+                <li>Scarpe Nike Black Friday</li>
+                <li>Tute Nike Black Friday</li>
+                <li>Nike Cyber Monday</li>
+                <li>Scarpe Nike Cyber Monday</li>
+                <li>Giacche invernali Nike Black Friday</li>
+                <li>Idee regalo</li>  
+
+            </ul>
+
+        </li>
+    </ul>
+
+</div>
+
+<div id="footer_sottomenu_2">
+
+    <ul class="colonne_3">
+
+        <li>
+
+            <input type="checkbox" id="Risorse" class="menu-toggle">
+            <label for="Risorse">Risorse <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Gift card</li>
+                <li>Trova un negozio</li>
+                <li>Nike Journal</li>
+                <li>Diventa member</li>
+                <li>Sconto studenti</li>
+                <li>Feedback</li>
+                <li>Codici promozionali</li>
+                
+
+            </ul>
+        
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Assistenza" class="menu-toggle">
+            <label for="Assistenza">Assistenza <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Hai bisogno di aiuto?</li>
+                <li>Stato ordine</li>
+                <li>Spedizione e consegna</li>
+                <li>Resi</li>
+                <li>Opzioni di pagamento</li>
+                <li>Contattaci</li>
+                <li>Recensioni</li>
+                <li>Assistenza Codici promozionali Nike</li>
+                
+
+            </ul>
+
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Azienda" class="menu-toggle">
+            <label for="Azienda">Azienda <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Informazioni su Nike</li>
+                <li>News</li>
+                <li>Lavora con noi</li>
+                <li>Investitori</li>
+                <li>Sostenibilità</li>
+                <li>Obiettivo</li>
+                
+
+            </ul>
+
+        </li>
+
+        <li>
+            <div class="allineaCentro">
+                <img src="img/globe.png"> <p>Italia</p>
+            </div>
+        </li>
+
+    </ul>
+
+</div>
+
+<div id="footer_sottomenu_3">
+
+    <ul class="colonne_4">
+
+        <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+        <li class="guide"> 
+
+            <div id="guide">
+
+                <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+                <nav id="minimenu">
+
+                    <ul>
+                        <li>Nike Air</li>
+                        <li>Nike Air Max</li>
+                        <li>Nike FlyEase</li>
+                        <li>Nike Pegasus</li>
+                        <li>Nike React</li>
+                        <li>Nike Vaporfly</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </li>
+        <li>Condizioni d'uso</li>
+        <li>Condizioni di vendita</li>
+        <li>Info Legali e Societarie</li>
+        <li>Informativa sulla privacy e sui cookie</li>
+        <li>Impostazioni sulla privacy e sui cookie</li>
+    </ul>
+
+</div>

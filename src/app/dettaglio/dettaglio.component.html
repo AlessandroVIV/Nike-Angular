@@ -1,0 +1,548 @@
+<div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="iconeMobile">
+
+      <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+        <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+      </ng-container>
+
+      <ng-template #showLoginMobile>
+
+        <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+    </div>
+  
+    <div class="iconeDesktop">
+
+      <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+        <p (click)="logout()" style="cursor: pointer;" class="bordoDestro">Esci</p>
+
+      </ng-container>
+
+      <ng-template #showLoginDesktop>
+
+        <p><a [routerLink]="['/login']" style="cursor: pointer;" class="bordoDestro">Accedi</a></p>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']" class="margineDestro">Carrello</a>
+
+    </div>
+    
+</div>
+
+<div id="blocco2">
+
+  <div class="slider-container">
+
+    <div class="slider" [style.transform]="sliderTransform">
+
+      <div class="slide">
+        <p>Tutti i nuovi arrivi<br><a href="#">Acquista</a></p>
+      </div>
+
+      <div class="slide" id="piccolo">
+
+        <strong>PROROGA RESI PER LE FESTIVITÀ</strong>
+        <br>
+        Resi estesi a 60 giorni per acquisti Nike eseguiti tra il 1° novembre e il 31 dicembre 2024.
+        <a href="#">Scopri di più</a> 
+        o <a href="#">Unisciti a noi</a>
+
+      </div>
+
+      <div class="slide"><strong>Scopri le offerte esclusive di Nike per la stagione!</strong>
+        <br> 
+        Solo <a href="#">qui</a> per un periodo limitato.
+      </div>
+
+    </div>
+
+  </div>
+  
+</div>
+
+<div id="mobile-layout">
+
+    <div *ngIf="scarpa" id="ContainerGenerale">
+
+        <div class="nome_prezzo">
+
+        <p>{{scarpa.nome}}</p>
+        <h4>{{scarpa.prezzo | currency:'EUR':'symbol':'1.2-2'}}</h4>
+
+        </div>
+
+        <div id="valutazione_relative">
+
+        <div id="valutazione_absolute">
+
+            <img src="img/dark-star.png">
+            <p>Valutazione alta</p>
+
+        </div>
+
+        <div class="ContainerImg">
+
+            <div class="slider2">
+
+                <img *ngFor="let img of scarpa.immagine" [src]="img" alt="{{ scarpa.nome }}">
+
+            </div>
+            
+        </div>
+
+        </div>
+
+        <div id="titoli_tabella">
+
+        <p>Selezione la <br> taglia/misura</p>
+
+        <a href="https://www.nike.com/it/size-fit/scarpe-donna" target="_blank">
+
+            <div class="guida">
+
+                <img src="img/measure.png">
+
+                <p>Guida alle taglie e alle <br> misure</p>
+
+            </div>
+
+        </a>
+        
+        </div>
+
+        <div id="tabella" [class.erroreTabella]="erroreTaglia">
+
+        <div *ngFor="let taglia of taglie" class="taglia" [class.selezionata]="tagliaSelezionata === taglia"
+            (click)="tagliaSelezionata = taglia"> EU {{taglia}}
+        </div>
+
+        </div>
+
+        <span class="errore" [style.display]="erroreTaglia ? 'block' : 'none'">Seleziona la misura</span>
+
+        <h3 class="padding">Colori Disponibili</h3>
+
+        <div id="colori" [class.erroreTabella]="erroreColore">
+
+        <div *ngFor="let colore of colori_disponibili" class="colori" [class.selezionata]="coloreSelezionato === colore"
+            (click)="coloreSelezionato = colore"> {{colore}}
+        </div>
+        
+        </div>
+
+        <span class="errore" [style.display]="erroreColore ? 'block' : 'none'">Seleziona il colore</span>
+
+        <div id="pulsanti">
+
+        <button (click)="aggiungiAlCarrello()">Aggiungi al carrello</button>
+
+        <button>Aggiungi ai preferiti <img src="img/hearth.png"></button>
+
+        </div>
+
+        <span class="avviso">
+        Questo articolo è escluso dalle promozioni <br> e dagli sconti sul sito.
+        </span>
+
+        <div class="descrizione">
+        <p>{{ scarpa.descrizione }}</p>
+        </div>
+
+        <div id="mappa">
+
+        <h3>Ritiro gratuito</h3>
+
+        <span>Scegli il tuo negozio di fiducia</span>
+
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5942.776319582644!2d12.4535040121944!3d41.862994466239186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132f601da414ff73%3A0x50af1f8c10d58d13!2sLABFORWEB!5e0!3m2!1sit!2sit!4v1733770248971!5m2!1sit!2sit" 
+            width = "100%" 
+            height="450" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        </div>
+
+        <div id="footer_recensioni">
+
+            <ul class="colonne_recensioni">
+
+                <li>
+    
+                    <input type="checkbox" id="Spedizione" class="menu-toggle">
+                    <label for="Spedizione" id="label_spedizione">Spedizione e resi gratuiti <img src="img/down-arrow.jpg"></label>
+    
+                    <ul class="sottomenu_recensioni">
+
+                    <li>
+                        Consegna standard gratuita con la tua <br> Membership Nike.
+                        <br>
+
+                        <h5>PROROGA RESI PER LE FESTIVITÀ </h5>
+
+                        Per gli acquisti Nike effettuati tra il 1° novembre e <br> il 31 dicembre 2024, la politica dei resi è estesa a <br> 60 giorni. <span>Sono previste alcune eccezioni.</span>
+                    </li>
+                    
+                    </ul>
+            
+                </li>
+            
+                <li>
+    
+                    <input type="checkbox" id="Recensioni" class="menu-toggle">
+                    <label for="Recensioni" id="label_recensione">Recensioni<img src="img/down-arrow.jpg"></label>
+    
+                    <ul class="sottomenu_recensioni">
+    
+                    <li *ngFor="let recensione of recensioni">
+                        
+                        <ul>
+
+                            <div id="totale_rece">
+
+                                <span id="titolo_rece">
+                                    {{recensione.titolo_recensione}}
+                                </span>
+    
+                                <div id="stelle">
+    
+                                    <div class="stelle_flex">
+                                        <img src="img/dark-star.png">
+                                        <img src="img/dark-star.png">
+                                        <img src="img/dark-star.png">
+                                        <img src="img/dark-star.png">
+                                        <img src="img/dark-star.png">
+                                    </div>
+                                    
+                                    <span class="grigio">
+                                        {{recensione.recensore}} - {{recensione.data_recensione}}
+                                    </span>
+    
+                                </div>
+                                
+                                <br>
+                                
+                                {{recensione.recensione}}
+                               
+
+                            </div>
+                            
+
+                        </ul>
+
+                    </li>
+
+                   
+                    
+    
+                    </ul>
+    
+                </li>
+            
+                <li>
+    
+                    <input type="checkbox" id="Azienda" class="menu-toggle">
+                    <label for="Azienda" id="label_UltInfo">Ulteriori Informazioni <img src="img/down-arrow.jpg"></label>
+    
+                    <ul class="sottomenu_recensioni">
+    
+                    <li>
+                        Clicca <a href="https://www.nike.com/it/help/a/recycle-packaging" target="_blank">qui</a> per informazioni su come smaltire gli imballaggi dei prodotti Nike in Italia.
+                    </li>
+                    
+                    </ul>
+    
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div *ngIf="boxDettagliVisibile" class="boxRiepilogo slide-up">
+
+            <p>{{scarpa.nome}} aggiunta al carrello</p>
+
+            <p>Taglia: {{tagliaSelezionata}} | Colore: {{coloreSelezionato}}</p>
+
+            <p>Prezzo: {{scarpa.prezzo}}€</p>
+
+            <a [routerLink]="['/carrello']">
+                <button id="vaiCarrello">Vai al carrello</button>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="desktop-layout">
+
+    <div *ngIf="scarpa" id="ContainerGenerale">
+    
+      <div id="scarpeMostrate">
+
+        <div *ngFor="let img of scarpa.immagini" class="bloccoScarpa">
+          <img [src]="img.url" (mouseover)="mostraImmagineGrande(img)">
+        </div>
+
+      </div>
+    
+      <div id="contenitoreScarpaGrande">
+        <img [src]="immagineSelezionata || scarpa.immagini[0].url">
+      </div>
+      
+      <div id="infoGenerali">
+        
+        <h1>{{scarpa.nome}}</h1>
+
+        <p>{{scarpa.descrizione}}</p>
+
+        <p>Prezzo: {{scarpa.prezzo | currency:'EUR':'symbol':'1.2-2'}}</p>
+
+        <h3>Taglie Disponibili</h3>
+
+        <div class="taglie" [class.erroreTabellaDesktop]="erroreTaglia">
+
+          <div *ngFor="let taglia of taglie" class="taglia" [class.selezionata]="tagliaSelezionata === taglia" (click)="tagliaSelezionata = taglia">EU {{taglia}}
+          </div>
+
+        </div>
+  
+        <span class="erroreDesktop" [style.display]="erroreTaglia ? 'block' : 'none'">Seleziona la misura</span>
+
+        <h3>Colori Disponibili</h3>
+
+        <div class="coloriDesktop" [class.erroreTabellaDesktop]="erroreColore">
+
+          <div *ngFor="let colore of colori_disponibili" class="colori" [class.selezionata]="coloreSelezionato === colore"
+            (click)="coloreSelezionato = colore"> {{colore}}
+          </div>
+
+        </div>
+  
+        <span class="erroreDesktop" [style.display]="erroreColore ? 'block' : 'none'">Seleziona il colore</span>
+  
+        <div id="pulsanti">
+
+          <button (click)="aggiungiAlCarrello()">Aggiungi al carrello</button>
+          <button>Aggiungi ai preferiti <img src="img/hearth.png"></button>
+
+        </div>
+
+        <div *ngIf="boxDettagliVisibileDesktop" id="boxRiepilogoDesktop" class="boxRiepilogoDesktop">
+
+          <p>{{ scarpa.nome }} aggiunta al carrello</p>
+
+          <p>Taglia: {{ tagliaSelezionata }} <br> Colore: {{ coloreSelezionato }}</p>
+          
+          <p>Prezzo: {{ scarpa.prezzo }}€</p>
+          
+          <div class="boxImg">
+            <img [src]="scarpa.immagini[0].url">
+          </div>
+
+          <a [routerLink]="['/carrello']">
+            <button id="vaiCarrello">Vai al carrello</button>
+          </a>
+
+        </div>
+  
+        <div id="footer_recensioni">
+    
+          <input type="checkbox" id="toggle_spedizione" class="toggle-recensioni">
+
+          <label for="toggle_spedizione" class="toggle-label">Spedizione e resi gratuiti</label>
+
+          <ul class="colonne_recensioni">
+
+            <li>
+              Consegna standard gratuita con la tua Membership Nike.
+             
+              <br><br>
+
+              <h5>PROROGA RESI PER LE FESTIVITÀ</h5>
+
+              <br>
+
+              Per gli acquisti Nike effettuati tra il 1° novembre e il 31 dicembre 2024, la politica dei resi è estesa a 60 giorni. <span>Sono previste alcune eccezioni.</span>
+
+            </li>
+
+          </ul>
+        
+          <input type="checkbox" id="toggle_recensioni" class="toggle-recensioni">
+
+          <label for="toggle_recensioni" class="toggle-label">Recensioni </label>
+
+          <ul class="colonne_recensioni">
+
+            <li *ngFor="let recensione of recensioni" class="spazioRighe">
+
+              <div id="totale_rece">
+
+                <span id="titolo_rece">{{recensione.titolo_recensione}}</span>
+
+                <div id="stelle">
+
+                  <div class="stelle_flex">
+                    <img src="img/dark-star.png" *ngFor="let star of [1, 2, 3, 4, 5]" alt="Star">
+                  </div>
+
+                  <span class="grigio">{{recensione.recensore}} - {{recensione.data_recensione}}</span>
+
+                </div>
+
+                <p>{{recensione.recensione}}</p>
+              </div>
+
+            </li>
+
+          </ul>
+        
+          <input type="checkbox" id="toggle_info" class="toggle-recensioni">
+
+          <label for="toggle_info" class="toggle-label">Ulteriori informazioni</label>
+
+          <ul class="colonne_recensioni">
+
+            <li>
+              Clicca <a href="https://www.nike.com/it/help/a/recycle-packaging" target="_blank">qui</a> per informazioni su come smaltire gli imballaggi dei prodotti Nike in Italia.
+            </li>
+
+          </ul>
+
+        </div>
+      
+      </div>
+
+    </div>
+
+</div>
+  
+<div id="footer_sottomenu_2">
+
+    <ul class="colonne_3">
+
+        <li>
+
+            <input type="checkbox" id="Risorse" class="menu-toggle">
+            <label for="Risorse">Risorse <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Gift card</li>
+                <li>Trova un negozio</li>
+                <li>Nike Journal</li>
+                <li>Diventa member</li>
+                <li>Sconto studenti</li>
+                <li>Feedback</li>
+                <li>Codici promozionali</li>
+                
+
+            </ul>
+        
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Assistenza" class="menu-toggle">
+            <label for="Assistenza">Assistenza <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Hai bisogno di aiuto?</li>
+                <li>Stato ordine</li>
+                <li>Spedizione e consegna</li>
+                <li>Resi</li>
+                <li>Opzioni di pagamento</li>
+                <li>Contattaci</li>
+                <li>Recensioni</li>
+                <li>Assistenza Codici promozionali Nike</li>
+                
+
+            </ul>
+
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Azienda" class="menu-toggle">
+            <label for="Azienda">Azienda <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Informazioni su Nike</li>
+                <li>News</li>
+                <li>Lavora con noi</li>
+                <li>Investitori</li>
+                <li>Sostenibilità</li>
+                <li>Obiettivo</li>
+                
+
+            </ul>
+
+        </li>
+
+        <li>
+          <div class="allineaCentro">
+              <img src="img/globe.png"> <p>Italia</p>
+          </div>
+        </li>
+
+    </ul>
+
+</div>
+
+<div id="footer_sottomenu_3">
+
+    <ul class="colonne_4">
+
+        <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+        <li class="guide"> 
+
+            <div id="guide">
+
+                <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+                <nav id="minimenu">
+
+                    <ul>
+                        <li>Nike Air</li>
+                        <li>Nike Air Max</li>
+                        <li>Nike FlyEase</li>
+                        <li>Nike Pegasus</li>
+                        <li>Nike React</li>
+                        <li>Nike Vaporfly</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </li>
+        <li>Condizioni d'uso</li>
+        <li>Condizioni di vendita</li>
+        <li>Info Legali e Societarie</li>
+        <li>Informativa sulla privacy e sui cookie</li>
+        <li>Impostazioni sulla privacy e sui cookie</li>
+    </ul>
+
+</div>

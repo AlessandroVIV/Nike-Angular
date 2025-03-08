@@ -1,0 +1,35 @@
+SPIEGAZIONE FUNZIONAMENTO SLIDER CON ANGULAR
+
+In questo file di testo vorrei spiegare, anche come promemoria personale, lo slider che ho fatto con angular.
+
+Questo sistema è composto principalmente da:
+
+1- Un array di elementi da scorrere (le scritte).
+2- Una variabile per tenere traccia dell'indice corrente (currentIndex).
+3- Un timer (intervalId) per gestire il cambiamento automatico ogni 3 secondi.
+4- Una variabile di direzione (isForward) per determinare se lo slider deve muoversi avanti o indietro.
+
+Array slides: definisco il contenuto che lo slider farà scorrere, nel mio caso delle stringhe.
+
+currentIndex: Lui tiene traccia dell'indice dell'elemento corrente che deve essere visibile. Parte da 0 (prima scritta) e viene aggiornato ad ogni intervallo.
+
+sliderTransform: Questa variabile contiene la stringa che verrà applicata al CSS per muovere il contenuto, usando la proprietà "translateX()". Ad esempio, se currentIndex è 1, il valore di sliderTransform sarà translateX(-100%), spostando il contenuto del 100% verso sinistra.
+
+intervalId: Utilizzo setInterval per chiamare la funzione "moveSlider()" ogni 3 secondi. intervalId è la variabile che memorizza l'intervallo, permettendo di fermarlo quando il componente viene distrutto (con clearInterval()) su "NgOnDestroy"
+
+isForward: Questa variabile determina la direzione del movimento. Se è true, il movimento va avanti (da 0 a 2); se è false, il movimento va indietro (da 2 a 0).
+
+Come funziona il movimento in avanti? 
+
+Mettiamo che "isForward" è true: Se currentIndex è minore dell'ultimo indice dell'array (slides.length - 1), incrementa currentIndex per muoversi verso il prossimo elemento. Quando currentIndex arriva all'ultimo elemento (indice slides.length - 1), cambia la direzione, impostando isForward a false, e decrementa currentIndex per tornare indietro di uno.
+
+Come torna indietro?
+
+"isForward" è false: Se currentIndex è maggiore di 0, decrementa currentIndex per andare al precedente. Quando currentIndex è 0 (prima scritta), cambia la direzione, impostando isForward a true, e incrementa currentIndex per andare di nuovo al secondo elemento.
+
+Nota importante:
+
+Ho utilizzato il binding "style.transform" per cambiare lo stile ogni volta che succede qualcosa nel componente.  
+Ogni volta che "currentIndex" cambia, "sliderTransform" si aggiorna e il valore di transform viene applicato all'elemento del DOM.          
+
+Questo era un piccolo appunto sia per me che per chi sta visionando questo progetto.

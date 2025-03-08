@@ -1,0 +1,302 @@
+<div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="iconeMobile">
+
+      <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+        <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+      </ng-container>
+
+      <ng-template #showLoginMobile>
+
+        <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+      </ng-template>
+
+    </div>
+  
+    <div class="iconeDesktop">
+
+      <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+        <p (click)="logout()" style="cursor: pointer;" class="margineDestro">Esci</p>
+
+      </ng-container>
+
+      <ng-template #showLoginDesktop>
+
+        <p><a [routerLink]="['/login']" style="cursor: pointer;" class="margineDestro">Accedi</a></p>
+
+      </ng-template>
+
+    </div>
+    
+</div>
+
+<div class="padding">
+
+    <h1>Carrello</h1>
+
+    <p *ngIf="getNumeroArticoli() > 0" class="totaleArticoli">Articoli totali: {{getNumeroArticoli()}}</p>
+
+    <div *ngIf="carrello.length > 0; else carrelloVuoto">
+
+      <div *ngFor="let item of carrello" class="carrello-item">
+
+        <img [src]="item.scarpa.immagine[0]" width="100">
+
+        <div id="info">
+
+            <h3>{{item.scarpa.nome}}</h3>
+
+            <p>Prezzo: €{{item.scarpa.prezzo}}</p>
+
+            <p>Taglia: {{item.taglia}} | Colore: {{item.colore}}</p>
+
+            <p>Quantità: {{item.quantita}}</p>
+
+            <div id="PiuMeno">
+
+                <button (click)="incrementaQuantita(item.scarpa.id, item.taglia, item.colore)" class="bottoni"><img src="img/plus.png"></button>
+
+                <button (click)="rimuoviScarpa(item.scarpa.id, item.taglia, item.colore)" class="bottoni"><img src="img/minus-sign.png"></button>
+
+            </div>
+
+        </div>
+
+      </div>
+
+      <button (click)="svuotaCarrello()" class="bottoni">Svuota carrello</button>
+
+    </div>
+
+    <div id="spedizioneGratuita" *ngIf="!isAuthenticated()">
+
+        <h2>Spedizione gratuita per i Member.</h2>
+
+        <p>Diventa Member Nike e approfitta della spedizione rapida e gratuita. <a [routerLink]="['/register']">Unisciti a noi</a> o <a [routerLink]="['/login']">Accedi</a></p>
+
+    </div>
+
+    <div id="riepilogo">
+
+        <h2>Riepilogo</h2>
+      
+        <p (click)="toggleMenu()">
+            <span class="separaFreccia">Hai un codice promozionale?<img id="freccia" src="img/down-arrow.jpg" [ngClass]="{'rotate': isMenuOpen}"></span>
+        </p>
+    
+        <div class="ContainerMenu" [ngClass]="{'open': isMenuOpen}">
+
+            <div class="InputCodice">
+
+                <input id="Verde" type="text" placeholder="Inserisci codice promozionale" [(ngModel)]="codiceInserito" 
+                [ngClass]="{'bordo-verde': totaleConSconto !== null, 'bordo-rosso': totaleConSconto === null && codiceInserito !== ''}"/>
+
+                <button (click)="applicaCodice()">Applica</button>
+
+            </div>
+        
+            <span>Suggerimento: "CiaoAntonio01"</span>
+        
+            <div class="messaggioCodice">
+
+                <p *ngIf="totaleConSconto !== null" style="color: green;">Codice promozionale applicato! Sconto del 10%.</p>
+                <p *ngIf="codiceTentato && (totaleConSconto === null || codiceInserito === '')" style="color: red;">Codice non valido.</p>
+
+            </div>
+        
+        </div>
+        
+        <p id="ArticoliRecap">Articoli totali: <span>{{getNumeroArticoli()}}</span></p>
+
+        <div class="subtotale">
+
+            <p>Subtotale</p><img src="img/question.png">
+
+            <span *ngIf="getNumeroArticoli() > 0; else noItems" class="totale-span">{{totaleProdotti}}€</span>
+
+            <ng-template #noItems><span class="totale-span">—</span></ng-template>
+            
+        </div>
+
+        <div id="spedizione">
+
+            <p>Costi di spedizione e gestione previsti</p>
+
+            <span *ngIf="costoSpedizione === 0; else mostraCosto">Gratuita</span>
+
+            <ng-template #mostraCosto>{{costoSpedizione}}€</ng-template>
+
+        </div>
+          
+        <div id="totale">
+
+            <p>Totale</p> 
+
+            <span *ngIf="getNumeroArticoli() > 0; else noItems" class="totale-span">{{getPrezzoTotale()}}</span>
+
+        </div>
+        
+    </div>
+
+    <ng-template #carrelloVuoto>
+
+      <p id="vuoto">0 articoli | Nel tuo carrello non sono presenti articoli</p>
+
+    </ng-template>
+
+</div>
+
+<div id="vaiPagamento" *ngIf="carrello.length > 0">
+
+    <a [routerLink]="['/pagamento']"><button>Vai al pagamento</button></a>
+
+</div>
+
+<div id="piacerti">
+
+    <h3 class="padding">Potrebbero piacerti anche</h3>
+
+    <div class="scarpe_mostrate">
+
+        <div *ngFor="let prodotto of prodotti" class="scarpa_singola">
+        
+            <a [routerLink]="['/prodotti', prodotto.id]">
+    
+            <div class="immagine_contenitore">
+                <img src="{{ prodotto.immagine[0] }}" class="immagini_scarpe">
+            </div>
+    
+            <h3>{{prodotto.nome}}</h3>
+
+            <p>Categoria: {{prodotto.categoria}}</p>
+            
+            <p>Prezzo: {{prodotto.prezzo | currency:'EUR':'symbol':'1.2-2'}}</p>
+    
+            </a>
+            
+        </div>
+
+    </div>
+
+</div>
+
+<div id="footer_sottomenu_2">
+
+    <ul class="colonne_3">
+
+        <li>
+
+            <input type="checkbox" id="Risorse" class="menu-toggle">
+            <label for="Risorse">Risorse <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Gift card</li>
+                <li>Trova un negozio</li>
+                <li>Nike Journal</li>
+                <li>Diventa member</li>
+                <li>Sconto studenti</li>
+                <li>Feedback</li>
+                <li>Codici promozionali</li>
+                
+
+            </ul>
+        
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Assistenza" class="menu-toggle">
+            <label for="Assistenza">Assistenza <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Hai bisogno di aiuto?</li>
+                <li>Stato ordine</li>
+                <li>Spedizione e consegna</li>
+                <li>Resi</li>
+                <li>Opzioni di pagamento</li>
+                <li>Contattaci</li>
+                <li>Recensioni</li>
+                <li>Assistenza Codici promozionali Nike</li>
+                
+
+            </ul>
+
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Azienda" class="menu-toggle">
+            <label for="Azienda">Azienda <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Informazioni su Nike</li>
+                <li>News</li>
+                <li>Lavora con noi</li>
+                <li>Investitori</li>
+                <li>Sostenibilità</li>
+                <li>Obiettivo</li>
+                
+
+            </ul>
+
+        </li>
+
+        <li>
+            <div class="allineaCentro">
+                <img src="img/globe.png"> <p>Italia</p>
+            </div>
+        </li>
+
+    </ul>
+
+</div>
+
+<div id="footer_sottomenu_3">
+
+    <ul class="colonne_4">
+
+        <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+        <li class="guide"> 
+
+            <div id="guide">
+
+                <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+                <nav id="minimenu">
+
+                    <ul>
+                        <li>Nike Air</li>
+                        <li>Nike Air Max</li>
+                        <li>Nike FlyEase</li>
+                        <li>Nike Pegasus</li>
+                        <li>Nike React</li>
+                        <li>Nike Vaporfly</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </li>
+        <li>Condizioni d'uso</li>
+        <li>Condizioni di vendita</li>
+        <li>Info Legali e Societarie</li>
+        <li>Informativa sulla privacy e sui cookie</li>
+        <li>Impostazioni sulla privacy e sui cookie</li>
+    </ul>
+
+</div>

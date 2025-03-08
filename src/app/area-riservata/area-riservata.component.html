@@ -1,0 +1,94 @@
+<div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="icone">
+
+        <ng-container *ngIf="isAuthenticated(); else showLogin">
+
+            <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+        </ng-container>
+
+        <ng-template #showLogin>
+
+            <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLogin"></i></a>
+
+        </ng-template>
+
+        <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+        <span class="testoDesktop">Trova un negozio</span>
+
+    </div>
+  
+</div>
+
+<div id="blocco2">
+
+    <h1>Area Riservata</h1>
+
+    <p>Benvenuto nella tua area personale!</p>
+
+    <p>Qui potrai consultare gli ordini da te effettuati!</p>
+
+    <div id="funzioneAudio">
+
+        <p *ngIf="!audioPlaying" >Non è partita la musica?</p>
+
+        <audio #audioElement loop>
+            <source src="/audio/Chill-Music.mp3" type="audio/mpeg">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    
+        <button *ngIf="!audioPlaying" (click)="playAudio()">Avvia musica</button>
+
+    </div>
+
+</div>
+
+<div id="scarpeOrdinate">
+
+    <h1 class="centrato">Ordini Effettuati</h1>
+
+    <ul *ngIf="ordini.length > 0">
+
+        <li *ngFor="let ordine of ordini">
+
+            <p id="data">Ordine effettuato il {{ ordine.data | date:'d MMMM' }} alle {{ ordine.data | date:'HH:mm' }}</p>
+
+            <div class="infoBase">
+
+                <img [src]="ordine.immagine">
+
+                <div class="flex">
+
+                    <p><strong>Prodotto:</strong> {{ordine.prodotto}}</p>
+  
+                    <p><strong>Taglia:</strong> {{ordine.taglia}} </p>
+  
+                    <p><strong>Colore:</strong> {{ordine.colore}}</p>
+
+                    <p><strong>Quantità:</strong> {{ordine.quantita || 1}}</p> 
+
+                    <p><strong>Prezzo:</strong> {{prezzoTotaleUltimoOrdine | currency:'EUR'}}</p>
+
+                </div>
+
+            </div>
+
+        </li>
+
+    </ul>
+
+    <div id="vaiCatalogo" class="centrato" *ngIf="ordini.length === 0">
+
+        <p>Non sono stati effettuati ordini.</p>
+
+        <p class="fontAumentato">Rimediamo subito!</p>
+
+        <p><a [routerLink]="['/prodotti']">Vai al catalogo</a></p>
+
+    </div>
+
+</div>

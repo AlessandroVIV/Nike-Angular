@@ -1,0 +1,1514 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+ul{
+    list-style: none;
+}
+
+label{
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    color: black;
+}
+
+.padding{
+    padding: 15px;
+}
+
+.menu-toggle{
+    display: none; 
+}
+
+#blocco1{
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;  
+    align-items: center; 
+    z-index: 99999;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+#blocco1 img{
+    height: auto;    
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.iconeMobile{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    gap: 20px; 
+}
+
+.iconeMobile i{
+    font-size: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.iconeMobile i:last-child{
+    margin-right: 10px;
+}
+
+.iconeDesktop{
+    display: none;
+}
+
+#iconaLoginMobile{
+    font-size: 34px;
+    margin: 0;
+    padding: 0;
+}
+
+#intestazione{
+    padding-top: 60px;
+}
+
+#intestazione h2{
+    text-align: center;
+}
+
+#miniRecap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    color: grey;
+}
+
+#bloccoFreccia{
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding-top: 12px;
+    width: 100%;
+}
+
+.labelMain{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  margin-top: 30px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.labelMain img{
+  transition: transform 0.3s ease;
+}
+
+.scarpeScelte{
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.menu-toggle:checked + .labelMain + .scarpeScelte{
+    max-height: 1000px;
+    opacity: 1;
+    padding: 15px;
+}
+
+.menu-toggle:checked + .labelMain img{
+  transform: rotate(180deg);
+}
+
+.pagamento{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+  
+.stile-box{
+  display: flex;
+  align-items: flex-start;
+  gap: 15px; 
+  padding: 10px 0;
+}
+
+.stile-box img{
+  width: 130px; 
+  height: auto; 
+  border-radius: 5px; 
+}
+
+.stile-scritte{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px; 
+}
+
+.stile-scritte h3{
+  font-size: 1.1em;
+  margin: 0;
+  color: #000;
+}
+
+.stile-scritte p{
+  margin: 0;
+  font-size: 0.95em;
+  color: #666;
+}
+
+#riepilogo{
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+#riepilogo h2{
+  margin-bottom: 10px;
+}
+
+.subtotale{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subtotale img{
+  width: 15px;
+  height: 15px;
+}
+
+.subtotale .totale-span{
+  margin-left: auto;
+  padding-right: 3px;
+}
+
+#spedizione{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+#totale{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#recap{
+    padding: 10px;
+}  
+  
+#paypalBanner{
+    padding: 30px;
+    padding-left: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#paypalBanner h3{
+    display: flex;
+    text-align: center;
+    justify-content: left;
+    align-items: center;
+}
+  
+#paypalBanner button{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    border: solid 1px black;
+    border-radius: 50px;
+}
+
+#paypalBanner img{
+   width: 100px;
+   height: fit-content;
+}
+
+#paypalBanner p{
+    padding: 2px;
+    margin-top: 20px;
+    color: grey;
+    font-size: .9em;
+    text-align: left;
+    line-height: 20px;
+}
+
+.popup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+  
+.popup.visibile{
+  opacity: 1;
+  visibility: visible;
+}
+
+.messaggioPopup{
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0.8); 
+  transition: transform 0.3s ease; 
+}
+
+.popup.visibile .messaggioPopup{
+    transform: scale(1); 
+}
+
+.messaggioPopup p{
+    font-size: 1.1em !important;
+}
+
+#form > *{
+    padding-left: 20px;
+    padding-right: 20px; 
+}
+
+#form h2{
+    margin-top: 20px;
+}
+
+#modalita{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-left: 3px;
+}
+
+#spedizione2{
+    width: 50%;
+    height: 100px;
+    padding: 30px;
+    margin-top: 20px;
+    border: solid 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+#ritiro{
+    width: 50%;
+    height: 100px;
+    padding: 30px;
+    margin-top: 20px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+#ritiro img{
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px; 
+}
+
+#spedizione2 img{
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+}
+
+#spedizione p, #ritiro p{
+    margin: 0; 
+    font-size: 16px; 
+    text-align: center; 
+}
+
+#paginaRitiro{
+    padding: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 15px;
+}
+
+#paginaRitiro p:nth-child(3){
+    color: grey;
+}
+
+.inputIndirizzoRitiro{
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+    font-size: 1.2em;
+}
+  
+.inputIndirizzoRitiro input{
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputIndirizzoRitiro img{
+    position: absolute;
+    top: 50%;
+    left: 10px; 
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px; 
+    pointer-events: none; 
+}
+
+.inputIndirizzoRitiro label{
+  position: absolute;
+  top: 10px; 
+  left: 50px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputIndirizzoRitiro label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+  
+.inputNome{
+    position: relative;
+    width: 100%;
+    margin: 40px 0;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.inputNome input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputNome label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputNome label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.inputCognome{
+    position: relative;
+    width: 100%;
+    margin: 40px 0;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.inputCognome input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputCognome label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputCognome label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.inputIndirizzo{
+    position: relative;
+    width: 100%;
+    margin: 40px 0;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.inputIndirizzo input{
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputIndirizzo img{
+    position: absolute;
+    top: 50%;
+    left: 10px; 
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px; 
+    pointer-events: none; 
+}
+
+.inputIndirizzo label{
+  position: absolute;
+  top: 10px; 
+  left: 40px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputIndirizzo label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.inputEmail{
+    position: relative;
+    width: 100%;
+    margin: 40px 0;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.inputEmail input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputEmail label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputEmail label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.inputTelefono{
+    position: relative;
+    width: 100%;
+    margin: 40px 0;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.inputTelefono input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputTelefono label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.inputTelefono label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+#salvaecontinua{
+    padding-left: 3px;
+    padding-right: 2px;
+}
+
+#salvaecontinua button{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    color: rgb(154, 154, 154);
+    background-color: rgb(200, 200, 200);
+}
+
+#salvaecontinua button.active{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.inputNome, .inputCognome, .inputIndirizzo, .inputEmail, .inputTelefono{
+    position: relative; 
+}
+
+.messaggioErrore{
+    position: absolute; 
+    bottom: -25px; 
+    left: 10px; 
+    color: red;
+    font-size: 12px;
+    pointer-events: none; 
+}
+
+.inputErrore{
+    border: 1px solid red !important; 
+}
+
+.imgErrore{
+    filter: invert(18%) sepia(92%) saturate(7471%) hue-rotate(0deg) brightness(96%) contrast(102%);
+}
+  
+.labelErrore{
+    color: red !important;
+}
+
+#modificaButton{
+    background: none;
+    border: none;
+    line-height: 1;
+    border-bottom: 1px solid black;
+    color: black;
+    cursor: pointer;
+    font-size: 0.65em;
+    margin-left: 35px;
+}
+
+#immagineModifica{
+    width: 28px;
+    height: 28px;
+    margin-left: 15px;
+}
+
+#recapDati{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+#recapDati h3{
+    margin-bottom: 10px;
+}
+
+#recapDati p{
+    color: rgb(168, 167, 167);
+    line-height: 32px;
+}
+
+#recapDati p:nth-child(4){
+    margin-bottom: 15px;
+}
+
+#recapSpedizione{
+    padding-left: 5px;
+    line-height: 32px;
+}
+
+#recapSpedizione h3{
+    margin-bottom: 10px;
+}
+
+#recapSpedizione p{
+    color: rgb(168, 167, 167);
+}
+
+#pagamento{
+    width: 100%;
+    padding: 30px;
+    padding-left: 25px !important;
+    margin-top: 30px;
+    border-top: 1px rgba(0, 0, 0, 0.1) solid;
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+#pagamento h3{
+    color: grey;
+    font-size: 1.6em;
+}
+
+#sceltaPaese{
+    margin-top: 10px;
+}
+
+#sceltaPaese p{
+    margin-bottom: 10px;
+}
+
+#modificaPaese{
+    margin-left: 10px;
+}
+
+#sceltaPaese{
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+  
+#sceltaPaese p{
+  margin-bottom: 5px;
+}
+
+#cambiapaese{
+    color: grey;
+    margin-right: 5px;
+}
+
+#sceltaPaese label{
+  display: block;
+  color: #6c757d;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding: 0;
+}
+
+#postoscelto{
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  appearance: none; 
+}
+
+#postoscelto:focus{
+  border-color: black;
+  outline: none;
+}
+
+#modificaPaese{
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.relativeFreccia{
+  position: relative;
+}
+
+.selectPaesi{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectPaesi select{
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  appearance: none;
+  outline: none;
+}
+
+.selectPaesi .frecciaImg{
+  position: absolute;
+  right: 10px; 
+  width: 16px;
+  height: 16px;
+  pointer-events: none; 
+}
+  
+#metodoPagamento{
+    margin: 0;
+    padding: 0;
+    margin-top: 30px;
+}
+
+#checkMetodo{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+  
+.stileRadios{
+  display: flex;
+  align-items: center;
+}
+
+.stileRadios img{
+    margin-left: 10px;
+}
+  
+#imgCarta{
+    padding-right: 10px;
+}
+
+.stileRadios input[type="radio"]{
+  margin-right: 5px;
+  width: 16px;
+  height: 16px;
+}
+
+#imgPaypal{
+    width: 76px;
+    height: 76px;
+}
+
+#imgGoogle{
+    width: 80%;
+    height: 80%;
+}
+
+#metodoPaypal{
+    margin-top: 20px;
+}
+
+#bottonePaypal{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    color: white;
+    border-radius: 50px;
+    background-color: black;
+    font-weight: bold;
+}
+
+#bottoneGoogle{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    color: white;
+    border-radius: 50px;
+    background-color: black;
+    font-weight: bold;
+}
+
+#aggiungiCarta{
+    width: 100%;
+    height: fit-content;
+    border: solid 1px rgb(220, 220, 220);
+    border-radius: 10px;
+    margin-top: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.numeroCarta{
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.numeroCarta input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.numeroCarta label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.numeroCarta label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.dataCarta{
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.dataCarta input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.dataCarta label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.dataCarta label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+.cvvCarta{
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    padding-left: 2.5px;
+}
+  
+.cvvCarta input{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    outline: none;
+}
+
+.cvvCarta label{
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  font-size: 16px;
+  color: #aaa;
+  background-color: white;
+  padding: 0 4px; 
+  transform: translateY(0); 
+  transition: all 0.3s ease; 
+  pointer-events: none; 
+}
+
+.cvvCarta label.active{
+  top: -8px; 
+  left: 10px; 
+  font-size: 12px;
+}
+
+#whereCVV{
+    width: fit-content;
+    padding: 8px;
+    margin-top: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#confermaIndirizzo{
+    padding: 10px;
+    margin-top: 10px;
+    line-height: 35px;
+}
+
+.grigio{
+    color: grey;
+}
+
+#bottoneCarta{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    color: rgb(154, 154, 154);
+    background-color: rgb(200, 200, 200);
+}
+
+#bottoneCarta.active{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#riepilogoMetodo{
+    margin-top: 20px;
+}
+
+#titoloPagamento{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#titoloPagamento button{
+    margin-left: auto;
+}
+
+.spuntaVerde{
+  width: 28px;
+  height: 28px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+#modificaMetodo{
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: .65em;
+  text-decoration: underline;
+}
+
+.metodoScelto{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.cartaMetodo{
+    width: 24px;
+    height: 24px; 
+}
+
+.paypalMetodo{
+    width: 64px;
+    height: 64px; 
+}
+
+.googlePayMetodo{
+    width: 48px;
+    height: 48px; 
+}
+
+#verificaOrdine{
+    width: 100%;
+    padding: 30px;
+    padding-left: 25px !important;
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+#verificaOrdine h3{
+    color: grey;
+    font-size: 1.6em;
+}
+
+#verificaOrdine p{
+    margin-top: 10px;
+    line-height: 25px;
+    color: grey;
+    font-size: .9em;
+    text-align: left;
+}
+
+.stileVerifica{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#confermaOrdine{
+    all: unset;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    margin-top: 30px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    color: white;
+    background-color: black;
+}
+
+#footer_sottomenu_2, #footer_sottomenu_3{
+    font-size: 0.85em
+}
+
+.menu-toggle:checked + label + .sottomenu2{
+    max-height: 500px; 
+    opacity: 1;
+}
+
+.colonne_3{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.colonne_3 > li{ 
+    text-align: left;
+    width: 100%;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.colonne_3 label{
+    display: flex; 
+    align-items: center; 
+}
+
+.colonne_3 img{ 
+    margin-left: auto; 
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle:checked + label img{
+    transform: rotate(180deg); 
+}
+
+.sottomenu_3{
+    max-height: 0;
+    overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    opacity: 0; 
+    transition: all 0.3s ease;
+}
+
+.sottomenu_3 > li{ 
+    font-size: .85em; 
+    margin-top: 5px;
+    margin-bottom: 10px; 
+    color: #6c6b6b;
+    padding-left: 10px;
+}
+
+.menu-toggle:checked + label + .sottomenu_3{
+    max-height: 500px; 
+    opacity: 1;
+}
+
+.colonne_3 > li:first-child{
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 60px;
+}
+
+.colonne_3 > li{
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 10px;
+}
+
+.colonne_3 > li:last-child{
+    all: unset;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 9px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    color: grey;
+    font-size: 1.2em;
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    text-align: left;
+}
+
+.colonne_3 > li:last-child img{
+    all: unset;
+    padding: 0;
+    height: 1em; 
+}
+
+.colonne_4{
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    color: grey;
+}
+
+.colonne_4 > li{ 
+    text-align: left;
+    width: 100%;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 5px;
+    padding-left: 0;
+}
+
+.colonne_4 > li:last-child{ 
+    padding-bottom: 150px;
+}
+
+#guide{
+    width: auto; 
+    position: relative;
+    display: inline-block; 
+}
+
+#minimenu{
+    display: none;
+    position: absolute; 
+    bottom: 100%; 
+    left: 0; 
+    border: 1px solid rgb(208, 208, 208);
+    border-radius: 10px;
+    background-color: white; 
+    z-index: 1; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 10px;
+    padding-right: 80px;
+    line-height: 35px;
+    font-size: .9em;
+    white-space: nowrap; 
+}
+
+#guide:hover #minimenu{
+    display: block; 
+}
+
+#arrow{
+    transform: rotate(0deg); 
+}
+
+#guide:hover #arrow{
+    transform: rotate(180deg); 
+}
+
+#prodotti{
+    text-align: center;
+    padding: 20px;
+    box-shadow: 16px 16px 16px 16px rgba(0, 0, 0, 0.2);
+    line-height: 60px;
+    border-radius: 10px;
+}
+
+#prodotti h3{
+    font-size: 1.25em;
+    margin-top: 20px;
+}
+
+#prodotti a{
+    font-size: 1.2em; 
+    text-decoration: underline; 
+}
+
+.allineaCentro{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (min-width: 1400px){
+
+    #footer_sottomenu_2{
+        margin-top: 30px;
+    }
+
+    .colonne2{
+        flex-wrap: nowrap;
+        flex-direction: row;
+        padding: 30px;
+        justify-content: center;
+    }
+  
+    .colonne2 img, .colonne_3 img{
+        display: none;
+    }
+  
+    .colonne2 > li, .colonne_3 > li{
+        margin-right: 40px;
+        width: fit-content;
+        padding: 30px;
+    }
+  
+    .sottomenu2, .sottomenu_3{
+        max-height: none;
+        opacity: 1;
+    }
+  
+    .sottomenu2 > li, .sottomenu_3 > li{
+        margin-bottom: 8px;
+    }
+  
+    .sottomenu2 > li{
+        padding-left: 10px;
+    }
+  
+    .menu-toggle + label{
+        cursor: default;
+    }
+  
+    .colonne_4{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        color: grey;
+        margin-top: 20px;
+    }
+  
+    .colonne_4 > li{
+        width: fit-content;
+        text-align: left;
+        font-size: 1.1em;
+        cursor: default;
+        padding: 5px;
+        padding-left: 0;
+        margin-right: 25px;
+    }
+  
+    .colonne_3 > li:last-child{
+        all: unset;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-left: 9px;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        color: grey;
+        font-size: 1.2em;
+        display: flex;
+        cursor: default;
+        gap: 10px;
+        text-align: left;
+    }
+  
+    .sottomenu_3 > li{
+        width: fit-content;
+        font-size: 0.85em;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        color: #6c6b6b;
+        padding-left: 10px;
+    }
+  
+    .colonne_3 > li:last-child img{
+        all: unset;
+        padding: 0;
+        height: 1em;
+        cursor: default;
+    }
+  
+    .colonne_3{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        gap: 10em;
+    }
+  
+    .colonne_3 > li{
+        border: none;
+    }
+  
+    .colonne_3 > li:first-child{
+        border: none;
+    }
+  
+    .colonne_3 > li:last-child{
+        border: none;
+    }
+  
+    .colonne{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0;
+        margin: 0;
+    }
+  
+    .colonne > li{
+        position: relative;
+    }
+  
+    .colonne > li .sottomenu{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        z-index: 1000;
+    }
+  
+    .colonne > li:hover .sottomenu{
+        max-height: 500px;
+        opacity: 1;
+        overflow: visible;
+    }
+  
+    .colonne .sottomenu > li{
+        position: relative;
+    }
+  
+    .colonne .sottomenu-secondo{
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 200px;
+        background-color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        z-index: 1000;
+    }
+  
+    .colonne .sottomenu > li:hover .sottomenu-secondo{
+        max-height: 500px;
+        opacity: 1;
+        overflow: visible;
+    }
+  
+    .colonne .sottomenu li, .colonne .sottomenu-secondo li{
+        padding: 10px 15px;
+        white-space: nowrap;
+    }
+  
+    .colonne .sottomenu li:hover, .colonne .sottomenu-secondo li:hover{
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+  
+    #blocco2{
+        padding-top: 20px;
+    }
+
+    .padding{
+        width: 50% !important;
+        margin: 0 auto;
+    }
+
+    #blocco1{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f8f8;
+        font-family: Arial, sans-serif;
+    }
+
+    .noBordo{
+        border: none;
+    }
+
+    #blocco2{
+        padding-top: 20px;
+    }
+
+    .iconeMobile{
+        display: none;
+    }
+
+    .iconeDesktop{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end; 
+    }
+    
+    .bordoDestro{
+        border-right: solid 1px black !important;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .margineDestro{
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+  
+}

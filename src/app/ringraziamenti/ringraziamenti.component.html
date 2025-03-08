@@ -1,0 +1,240 @@
+<div id="blocco1">
+
+    <a href="https://www.labforweb.it"><img src="img/logo.png"></a>
+  
+    <div class="iconeMobile">
+
+      <a [routerLink]="['/area-riservata']"><img src="img/area-riservata.png"></a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginMobile">
+
+        <i class="bi bi-box-arrow-right" alt="logout" (click)="logout()" style="cursor: pointer;"></i>
+
+      </ng-container>
+
+      <ng-template #showLoginMobile>
+
+        <a [routerLink]="['/login']"><i class="bi bi-person" id="iconaLoginMobile"></i></a>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']"><i class="bi bi-cart" alt="carrello"></i></a>
+
+    </div>
+  
+    <div class="iconeDesktop">
+
+      <a [routerLink]="['/area-riservata']" class="bordoDestro">Area riservata</a>
+
+      <ng-container *ngIf="isAuthenticated(); else showLoginDesktop">
+
+        <p (click)="logout()" style="cursor: pointer;" class="bordoDestro">Esci</p>
+
+      </ng-container>
+
+      <ng-template #showLoginDesktop>
+
+        <p><a [routerLink]="['/login']" style="cursor: pointer;" class="bordoDestro">Accedi</a></p>
+
+      </ng-template>
+
+      <a [routerLink]="['/carrello']" class="margineDestro">Carrello</a>
+
+    </div>
+    
+</div>
+
+<div id="bloccoRingraziamentiDesktop">
+
+    <h1>Grazie per l'acquisto caro membro!</h1>
+  
+    <p>
+
+      <ng-container *ngIf="isAuthenticated(); else nonLoggatoDesktop">
+
+        Visualizza il tuo ordine nell'<a [routerLink]="['/area-riservata']">area riservata</a>!
+
+      </ng-container>
+
+      <ng-template #nonLoggatoDesktop>
+        <a [routerLink]="['/register']">Registrati</a> o 
+        <a [routerLink]="['/login']">accedi</a> per entrare nell'area riservata e visualizzare il tuo ordine!
+      </ng-template>
+
+    </p>
+  
+    <div id="schedePagine">
+
+      <div class="flexPagine">
+
+        <a [routerLink]="['/']">
+          <p>Torna alla home</p>
+          <img src="img/homepageScreen.png">
+        </a>
+
+      </div>
+  
+      <div class="flexPagine">
+
+        <a [routerLink]="['/prodotti']">
+          <p>Vai al catalogo</p>
+          <img src="img/catalogoScreen.png">
+        </a>
+
+      </div>
+  
+      <div class="flexPagine">
+
+        <a [routerLink]="['/carrello']" id="CarrelloScreen">
+          <p>Vai al carrello</p>
+          <img src="img/carrelloScreen.png">
+        </a>
+
+      </div>
+
+    </div>
+
+</div>
+  
+<div id="bloccoRingraziamentiMobile">
+
+    <h1>Grazie per l'acquisto caro membro!</h1>
+  
+    <p>
+
+      <ng-container *ngIf="isAuthenticated(); else nonLoggatoMobile">
+
+        Visualizza il tuo ordine nell'<a [routerLink]="['/area-riservata']">area riservata</a>!
+
+      </ng-container>
+
+      <ng-template #nonLoggatoMobile>
+
+        <a [routerLink]="['/register']">Registrati</a> o 
+        <a [routerLink]="['/login']">accedi</a> per entrare nell'area riservata e visualizzare il tuo ordine!
+
+      </ng-template>
+
+    </p>
+  
+    <div id="stileA">
+
+      <a [routerLink]="['/']">Torna alla home</a>
+      <a [routerLink]="['/prodotti']">Vai al catalogo</a>
+      <a [routerLink]="['/carrello']">Vai al carrello</a>
+
+    </div>
+
+</div>
+  
+<div id="footer_sottomenu_2">
+
+    <ul class="colonne_3">
+
+        <li>
+
+            <input type="checkbox" id="Risorse" class="menu-toggle">
+            <label for="Risorse">Risorse <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Gift card</li>
+                <li>Trova un negozio</li>
+                <li>Nike Journal</li>
+                <li>Diventa member</li>
+                <li>Sconto studenti</li>
+                <li>Feedback</li>
+                <li>Codici promozionali</li>
+                
+
+            </ul>
+        
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Assistenza" class="menu-toggle">
+            <label for="Assistenza">Assistenza <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Hai bisogno di aiuto?</li>
+                <li>Stato ordine</li>
+                <li>Spedizione e consegna</li>
+                <li>Resi</li>
+                <li>Opzioni di pagamento</li>
+                <li>Contattaci</li>
+                <li>Recensioni</li>
+                <li>Assistenza Codici promozionali Nike</li>
+                
+
+            </ul>
+
+        </li>
+        
+        <li>
+
+            <input type="checkbox" id="Azienda" class="menu-toggle">
+            <label for="Azienda">Azienda <img src="img/down-arrow.jpg"></label>
+
+            <ul class="sottomenu_3">
+
+                <li>Informazioni su Nike</li>
+                <li>News</li>
+                <li>Lavora con noi</li>
+                <li>Investitori</li>
+                <li>Sostenibilità</li>
+                <li>Obiettivo</li>
+                
+
+            </ul>
+
+        </li>
+
+
+        <li>
+            <div class="allineaCentro">
+                <img src="img/globe.png"> <p>Italia</p>
+            </div>
+        </li>
+
+    </ul>
+
+</div>
+
+<div id="footer_sottomenu_3">
+
+    <ul class="colonne_4">
+
+        <li>© 2024 Nike, Inc. Tutti i diritti riservati</li>
+
+        <li class="guide"> 
+
+            <div id="guide">
+
+                <p>Guide <img src="img/down-arrow.jpg" id="arrow"></p>
+
+                <nav id="minimenu">
+
+                    <ul>
+                        <li>Nike Air</li>
+                        <li>Nike Air Max</li>
+                        <li>Nike FlyEase</li>
+                        <li>Nike Pegasus</li>
+                        <li>Nike React</li>
+                        <li>Nike Vaporfly</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </li>
+        <li>Condizioni d'uso</li>
+        <li>Condizioni di vendita</li>
+        <li>Info Legali e Societarie</li>
+        <li>Informativa sulla privacy e sui cookie</li>
+        <li>Impostazioni sulla privacy e sui cookie</li>
+    </ul>
+
+</div>
