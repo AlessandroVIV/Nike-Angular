@@ -100,7 +100,6 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
       complete: () => console.log("Tutto funzionante"),
     });
     
-
   }
 
   ngOnDestroy(){

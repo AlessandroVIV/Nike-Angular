@@ -37,13 +37,16 @@ export class DettaglioScarpaComponent implements OnInit{
   erroreColore: boolean = false;
   immagineSelezionata: string = '';
 
-  ngOnInit(): void {
+  ngOnInit(): void{
+
     this.startSlider();
   
     const id = this.route.snapshot.paramMap.get('id');
   
     if(id){
+
       this.scarpeService.getDetailById(+id).subscribe({
+
         next: (data) => {
 
           this.scarpa = data;
@@ -53,14 +56,13 @@ export class DettaglioScarpaComponent implements OnInit{
         },
 
         error: (err) => console.error("Errore nel caricamento della scarpa:", err)
+        
       });
 
     }
 
   }
   
-  
-
   ngOnDestroy(){
     clearInterval(this.intervalId);
   }
