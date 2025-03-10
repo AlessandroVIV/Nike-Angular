@@ -50,7 +50,7 @@
 
       <div *ngFor="let item of carrello" class="carrello-item">
 
-        <img [src]="item.scarpa.immagine[0]" width="100">
+        <img [src]="item.scarpa.immagini[0]?.url" width="100">
 
         <div id="info">
 
@@ -173,7 +173,7 @@
             <a [routerLink]="['/prodotti', prodotto.id]">
     
             <div class="immagine_contenitore">
-                <img src="{{ prodotto.immagine[0] }}" class="immagini_scarpe">
+                <img src="{{ prodotto.immagini[0].url }}" class="immagini_scarpe">
             </div>
     
             <h3>{{prodotto.nome}}</h3>

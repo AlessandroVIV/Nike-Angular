@@ -99,7 +99,8 @@
 
             <div class="slider2">
 
-                <img *ngFor="let img of scarpa.immagine" [src]="img" alt="{{ scarpa.nome }}">
+              <img *ngFor="let img of scarpa.immagini" [src]="img.url" alt="{{ scarpa.nome }}">
+
 
             </div>
             

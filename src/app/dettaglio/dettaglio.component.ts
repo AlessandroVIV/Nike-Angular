@@ -52,6 +52,7 @@ export class DettaglioScarpaComponent implements OnInit{
           this.scarpa = data;
           this.taglie = data.taglieDisponibili.map(t => t.taglia);
           this.colori_disponibili = data.coloriDisponibili.map(c => c.colore);
+          this.recensioni = data.recensioni; 
   
         },
 
