@@ -14,25 +14,36 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  register(NomeUtente: string, password: string): void {
+  register(NomeUtente: string, password: string, email: string, indirizzo: string, telefono: string): void {
 
-    const newUser = { username: NomeUtente, password };
+    const newUser = { 
+      username: NomeUtente, 
+      password, 
+      email, 
+      indirizzo, 
+      telefono 
+    };
   
     this.http.post(`${this.USERS_URL}/register`, newUser, { responseType: 'text' }).subscribe({
 
       next: (response) => {
+
         console.log('Risposta del server:', response);
         this.router.navigate(['/login']);
+        
       },
 
       error: (err) => {
+
         console.error('Errore nella registrazione:', err);
         alert('Errore nella registrazione!');
-      }
 
+      }
+      
     });
-    
+
   }
+  
   
   login(NomeUtente: string, password: string): Promise<boolean> {
 

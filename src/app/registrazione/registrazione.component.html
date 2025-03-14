@@ -66,7 +66,61 @@
       </div>
 
     </div>
-  
+
+    <div class="inputNome">
+
+      <input id="email" type="email" autocomplete="off" [(ngModel)]="email" name="email"
+        (focus)="onFocus('email')" (blur)="onBlur('email')"
+        [class.inputErrore]="isTouchedEmail && !emailValida" required />
+
+      <label for="email"
+        [class.labelErrore]="isTouchedEmail && !emailValida"
+        [class.active]="isFocusedEmail || email">
+        Email
+      </label>
+
+      <div class="messaggioErrore" *ngIf="isTouchedEmail && !emailValida">
+        Inserisci un'email valida.
+      </div>
+
+    </div>
+
+    <div class="inputNome">
+
+      <input id="indirizzo" type="text" autocomplete="off" [(ngModel)]="indirizzo" name="indirizzo"
+        (focus)="onFocus('indirizzo')" (blur)="onBlur('indirizzo')"
+        [class.inputErrore]="isTouchedIndirizzo && !indirizzoValido" required />
+
+      <label for="indirizzo"
+        [class.labelErrore]="isTouchedIndirizzo && !indirizzoValido"
+        [class.active]="isFocusedIndirizzo || indirizzo">
+        Indirizzo
+      </label>
+
+      <div class="messaggioErrore" *ngIf="isTouchedIndirizzo && !indirizzoValido">
+        L'indirizzo deve essere lungo almeno 5 caratteri.
+      </div>
+
+    </div>
+
+    <div class="inputNome">
+
+      <input id="telefono" type="text" autocomplete="off" [(ngModel)]="telefono" name="telefono"
+        (focus)="onFocus('telefono')" (blur)="onBlur('telefono')"
+        [class.inputErrore]="isTouchedTelefono && !telefonoValido" required />
+
+      <label for="telefono"
+        [class.labelErrore]="isTouchedTelefono && !telefonoValido"
+        [class.active]="isFocusedTelefono || telefono">
+        Telefono
+      </label>
+
+      <div class="messaggioErrore" *ngIf="isTouchedTelefono && !telefonoValido">
+        Inserisci un numero di telefono valido (7-15 cifre).
+      </div>
+
+    </div>
+
     <p id="messaggio">Registrati per poter accedere all'area riservata e rimanere aggiornato su tutti i tuoi ordini!</p>
 
     <button type="submit" [disabled]="!isFormValid()" [ngClass]="{'bottoneDisabilitato': !isFormValid(), 'bottoneAbilitato': isFormValid()}"
