@@ -43,6 +43,7 @@ export class AreaRiservataComponent implements OnInit {
     const ordiniSalvati = localStorage.getItem('ordini');
 
     if(ordiniSalvati) 
+      
     {
 
       this.ordini = JSON.parse(ordiniSalvati).map((ordine: any) => ({
@@ -96,31 +97,37 @@ export class AreaRiservataComponent implements OnInit {
     this.carrelloService.getDettagliCarrello().subscribe({
 
       next: (carrelloDettagli) => {
-        const nuoviOrdini = carrelloDettagli.map(item => ({
-          prodotto: item.scarpa.nome,
-          taglia: item.taglia,
-          colore: item.colore,
-          quantita: item.quantita,
-          immagine: item.scarpa.immagine[0]?.url || '', 
-          data: new Date()
-        }));
-        
-        this.ordini = [...this.ordini, ...nuoviOrdini];
 
+        const nuoviOrdini = carrelloDettagli.map(item => {
+          
+          return{
+            prodotto: item.scarpa.nome,
+            taglia: item.taglia,
+            colore: item.colore,
+            quantita: item.quantita,
+            immagine: (Array.isArray(item.scarpa.immagini) && item.scarpa.immagini.length > 0) 
+              ? item.scarpa.immagini[0].url 
+              : 'assets/img/default.png',
+            data: new Date()
+          };
+
+        });
+  
+        this.ordini = [...this.ordini, ...nuoviOrdini];
+  
         this.salvaOrdiniNelLocalStorage();
 
       },
 
       error: (err) => console.log(err)
-
     });
 
   }
-
+  
   salvaOrdiniNelLocalStorage(): void{
     localStorage.setItem('ordini', JSON.stringify(this.ordini));
   }
-
+  
   playAudio(): void{
 
     const audio = this.audioRef.nativeElement;

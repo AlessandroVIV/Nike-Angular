@@ -139,19 +139,26 @@ export class CarrelloService {
     return this.scarpeService.getProdotti().pipe(
 
       map((prodotti) => {
-        
+  
         const dettagli = this.carrello.map((item) => {
-        const scarpa = prodotti.find((p) => p.id === item.scarpa.id);
 
+          const scarpa = prodotti.find((p) => p.id === item.scarpa.id);
+          
+          if(!scarpa){
+            console.warn("Scarpa non trovata per ID:", item.scarpa.id);
+            return null;
+          }
+  
           return {
-            scarpa: scarpa!,
+            scarpa: scarpa,
             quantita: item.quantita,
             taglia: item.taglia,
-            colore: item.colore,
+            colore: item.colore
           };
 
-        });
-      
+        }).filter(item => item !== null);
+  
+  
         return dettagli;
 
       })
@@ -159,5 +166,6 @@ export class CarrelloService {
     );
     
   }
+  
  
 };

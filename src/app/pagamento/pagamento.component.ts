@@ -348,7 +348,7 @@ export class PagamentoComponent implements OnInit {
 
   onSalvaEContinua(): void{
 
-    if (this.isButtonActive) 
+    if(this.isButtonActive) 
     {
       this.isFormCompilato = true; 
       this.isSpedizioneVisible = false;
@@ -427,18 +427,23 @@ export class PagamentoComponent implements OnInit {
       );
   
       this.carrello.forEach((item) => {
+
         const ordine = {
           prodotto: item.scarpa.nome,
           taglia: item.taglia,
           colore: item.colore,
-          immagine: item.scarpa.immagine[0]?.url || '',
+          immagine: (Array.isArray(item.scarpa.immagini) && item.scarpa.immagini.length > 0) 
+            ? item.scarpa.immagini[0].url 
+            : 'immagineDefault.png',  
           data: new Date(),
           prezzoTotale: totaleOrdine 
         };
-  
+        
+
         this.orderService.aggiungiOrdine(ordine);
 
       });
+      
   
       localStorage.setItem('totaleUltimoOrdine', totaleOrdine.toString());
 

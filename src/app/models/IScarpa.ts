@@ -6,7 +6,7 @@ export interface IScarpa {
   taglieDisponibili: { taglia: string }[];
   coloriDisponibili: { colore: string }[];
   descrizione: string;
-  immagine: { url: string }[];
+  immagini: { url: string }[];
   nuovoArrivi?: boolean;
   bestSeller?: number;
   recensioni: any;
