@@ -77,41 +77,28 @@ export class CarrelloComponent implements OnInit{
     
   }
   
-  caricaCarrello(): void{
+  caricaCarrello(): void {
 
-    const carrelloParziale = this.carrelloService.getCarrello();
+    this.carrelloService.getDettagliCarrello().subscribe({
 
-    this.scarpeService.getProdotti().subscribe({
+      next: (dettagli) => {
 
-      next: (prodotti) =>{
-
-        this.prodotti = prodotti
-
-        this.carrello = carrelloParziale.map((item) => {
-          const scarpaDettaglio = prodotti.find(
-            (scarpa) => scarpa.id === item.scarpa.id
-          );
-
-          return {
-            scarpa: scarpaDettaglio,
-            quantita: item.quantita,
-            taglia: item.taglia,
-            colore: item.colore
-          };
-
-        });
-
-        this.totaleProdotti = parseFloat(this.carrello.reduce((totale, item) => totale + item.scarpa.prezzo * item.quantita, 0).toFixed(2)
-        );  
+        this.carrello = dettagli;
+        this.totaleProdotti = parseFloat(
+          this.carrello.reduce((totale, item) => totale + item.scarpa.prezzo * item.quantita, 0).toFixed(2)
+        );
+        this.aggiornaPrezzoTotale();
 
       },
 
-      error: (err) => console.error('Non ha caricato, sveglia!')
+      error: (err) => {
+        console.error("Errore nel caricamento carrello:", err);
+      }
 
     });
-
+    
   }
-
+  
   aggiornaCostoSpedizione(): void{
 
     if(this.isAuthenticated()) 
@@ -154,35 +141,78 @@ export class CarrelloComponent implements OnInit{
     }
 
   }
+
+  incrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): void {
+
+    this.carrelloService.incrementaQuantita(scarpaId, nomeScarpa, taglia, colore).subscribe({
+
+      next: (itemAggiornato) => {
+
+        const index = this.carrello.findIndex(item =>
+          item.scarpa.nome === itemAggiornato.prodotto &&
+          item.taglia === itemAggiornato.taglia &&
+          item.colore === itemAggiornato.colore
+        );
+
+        if(index > -1) 
+        {
+          this.carrello[index].quantita = itemAggiornato.quantita;
+        }
+
+      },
+
+      error: (err) => console.error("Errore incremento:", err)
+
+    });
+
+  }
   
-  incrementaQuantita(scarpaId: number, taglia: string, colore: string): void{
+  decrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): void {
 
-    this.carrelloService.incrementaQuantita(scarpaId, taglia, colore);
+    this.carrelloService.decrementaQuantita(scarpaId, nomeScarpa, taglia, colore).subscribe({
 
-    this.caricaCarrello();
+      next: (res) => {
+        const index = this.carrello.findIndex(item =>
+          item.scarpa.nome === nomeScarpa &&
+          item.taglia === taglia &&
+          item.colore === colore
+        );
+  
+        if(res.eliminato && index > -1) 
+        {
+          this.carrello.splice(index, 1); 
+        } 
+        else if(res.item && index > -1) 
+        {
+          this.carrello[index].quantita = res.item.quantita; 
+        }
 
-  }
+      },
 
-  rimuoviScarpa(scarpaId: number, taglia: string, colore: string): void{
-
-    this.carrelloService.decrementaQuantita(scarpaId, taglia, colore);
-
-    this.caricaCarrello();
+      error: (err) => console.error("Errore decremento:", err)
+    });
 
   }
   
-  svuotaCarrello(): void{
+  svuotaCarrello(): void {
 
-    this.carrelloService.svuotaCarrello();
+    this.carrelloService.svuotaCarrello().subscribe({
 
-    this.caricaCarrello();
+      next: () => {
+        console.log("Carrello svuotato correttamente");
+        this.caricaCarrello(); 
+      },
+
+      error: (err) => {
+        console.error("Errore nello svuotamento:", err);
+      }
+
+    });
 
   }
-
+  
   getNumeroArticoli(): number{
-
     return this.carrello.reduce((totale, item) => totale + item.quantita, 0);
-
   }
 
   isAuthenticated(): boolean{

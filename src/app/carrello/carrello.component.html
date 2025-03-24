@@ -64,9 +64,9 @@
 
             <div id="PiuMeno">
 
-                <button (click)="incrementaQuantita(item.scarpa.id, item.taglia, item.colore)" class="bottoni"><img src="img/plus.png"></button>
-
-                <button (click)="rimuoviScarpa(item.scarpa.id, item.taglia, item.colore)" class="bottoni"><img src="img/minus-sign.png"></button>
+                <button (click)="incrementaQuantita(item.scarpa.id, item.scarpa.nome, item.taglia, item.colore)" class="bottoni"><img src="img/plus.png"></button>
+                
+                <button (click)="decrementaQuantita(item.scarpa.id, item.scarpa.nome, item.taglia, item.colore)" class="bottoni"><img src="img/minus-sign.png"></button>
 
             </div>
 
