@@ -148,17 +148,19 @@ export class PagamentoComponent implements OnInit {
 
   totaleOrdine: number;
 
-  ngOnInit(): void{
+  ngOnInit(): void {
 
     this.carrelloService.getDettagliCarrello().subscribe((dettagli) => {
-
       this.carrello = dettagli;
+      this.carrelloService['carrello'] = dettagli; 
       this.costoSpedizione = this.carrelloService.getCostoSpedizione();
       this.calcolaTotaleConSpedizione();
-
     });
     
+
   }
+  
+  
 
   calcolaTotaleConSpedizione(): void{
 
@@ -206,12 +208,11 @@ export class PagamentoComponent implements OnInit {
 
   }
 
-  getPrezzoTotale(): string{
-
-    return `${this.totaleConSpedizione.toFixed(2)}€`;
-
+  getPrezzoTotale(): string {
+    return `${this.carrelloService.getTotaleFinale().toFixed(2)}€`;
   }
-
+  
+  
   getTotaleSenzaSpedizione(): number{
     return this.carrello.reduce((totale, item) => totale + item.scarpa.prezzo * item.quantita, 0);
   }
@@ -404,11 +405,24 @@ export class PagamentoComponent implements OnInit {
     (document.querySelector("#titoloVerifica") as HTMLElement).style.color = "black"
   }
 
-  effettuaPagamento(): void{
-    this.completaOrdine();
-    this.router.navigate(['/ringraziamenti']);
-  }
+  effettuaPagamento(): void {
 
+    this.carrelloService.checkout().subscribe({
+
+      next: () => {
+        console.log("Ordine salvato nel DB");
+        this.router.navigate(['/ringraziamenti']);
+      },
+
+      error: (err) => {
+        console.error("Errore durante il checkout:", err);
+        alert("Errore durante il pagamento. Riprova!");
+      }
+
+    });
+
+  }
+  
   isAuthenticated(): boolean{
     return this.authService.isAuthenticated();
   }
@@ -417,44 +431,5 @@ export class PagamentoComponent implements OnInit {
     this.authService.logout();
   }
 
-  completaOrdine(): void{
-
-    if (this.carrello.length > 0){
-      
-      const totaleOrdine = this.carrello.reduce(
-        (totale, item) => totale + item.scarpa.prezzo * item.quantita,
-        0
-      );
-  
-      this.carrello.forEach((item) => {
-
-        const ordine = {
-          prodotto: item.scarpa.nome,
-          taglia: item.taglia,
-          colore: item.colore,
-          immagine: (Array.isArray(item.scarpa.immagini) && item.scarpa.immagini.length > 0) 
-            ? item.scarpa.immagini[0].url 
-            : 'immagineDefault.png',  
-          data: new Date(),
-          prezzoTotale: totaleOrdine 
-        };
-        
-
-        this.orderService.aggiungiOrdine(ordine);
-
-      });
-      
-  
-      localStorage.setItem('totaleUltimoOrdine', totaleOrdine.toString());
-
-      this.router.navigate(['/ringraziamenti']);
-
-    } 
-    else 
-    {
-      console.log('Il carrello è vuoto.');
-    }
-
-  }
   
 }

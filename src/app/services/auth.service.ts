@@ -109,9 +109,10 @@ export class AuthService {
     
     carrelloService.svuotaCarrelloFrontend();
 
+    this.injector.get(CarrelloService).resettaCodiceSconto();
+
     this.router.navigate(['/']);
 
-  }
-  
+  } 
 
 }

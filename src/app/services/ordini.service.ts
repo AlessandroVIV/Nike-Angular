@@ -1,36 +1,26 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class OrderService {
 
-  private ordini: {prodotto: string; taglia: string; colore: string; immagine: string; data: Date}[] = [];
+  private readonly BASE_URL = 'http://localhost:8080/ordini';
 
-  constructor(){this.caricaOrdini();}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  aggiungiOrdine(order: {prodotto: string; taglia: string; colore: string; immagine: string; data: Date}): void{
-    this.ordini.push(order);
-    this.salvaOrdini(); 
-  }
+  getOrdiniUtente(): Observable<any[]> {
+    const utenteId = this.authService.getUtenteId();
+    const secretKey = this.authService.getSecretKey();
 
-  getOrdine(): {prodotto: string; taglia: string; colore: string; immagine: string; data: Date}[]{
-    return this.ordini;
-  }
+    const headers = new HttpHeaders({
+      'Secret-Key': secretKey!
+    });
 
-  private salvaOrdini(): void{
-    localStorage.setItem('ordini', JSON.stringify(this.ordini));
-  }
-
-  private caricaOrdini(): void{
-
-    const storedOrdini = localStorage.getItem('ordini');
-
-    if(storedOrdini)
-    {
-      this.ordini = JSON.parse(storedOrdini);
-    }
+    return this.http.get<any[]>(`${this.BASE_URL}/${utenteId}`, { headers });
     
   }
 
