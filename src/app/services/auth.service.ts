@@ -99,9 +99,19 @@ export class AuthService {
     return localStorage.getItem('utente_id');
   }
   
-  logout(): void{
-    localStorage.removeItem(this.TOKEN_KEY); 
-    this.router.navigate(['/']); 
+  logout(): void {
+
+    localStorage.removeItem(this.TOKEN_KEY);
+
+    localStorage.removeItem('utente_id');
+
+    const carrelloService = this.injector.get(CarrelloService);
+    
+    carrelloService.svuotaCarrelloFrontend();
+
+    this.router.navigate(['/']);
+
   }
+  
 
 }

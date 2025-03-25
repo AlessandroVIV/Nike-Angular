@@ -148,15 +148,21 @@ export class CarrelloComponent implements OnInit{
 
       next: (itemAggiornato) => {
 
-        const index = this.carrello.findIndex(item =>
-          item.scarpa.nome === itemAggiornato.prodotto &&
-          item.taglia === itemAggiornato.taglia &&
-          item.colore === itemAggiornato.colore
-        );
+        if(itemAggiornato?.prodotto) {
 
-        if(index > -1) 
-        {
-          this.carrello[index].quantita = itemAggiornato.quantita;
+          const index = this.carrello.findIndex(item =>
+            item.scarpa.nome === itemAggiornato.prodotto &&
+            item.taglia === itemAggiornato.taglia &&
+            item.colore === itemAggiornato.colore
+          );
+
+          if(index > -1) {
+            this.carrello[index].quantita = itemAggiornato.quantita;
+          }
+
+        } 
+        else {
+          this.caricaCarrello(); 
         }
 
       },
@@ -171,29 +177,46 @@ export class CarrelloComponent implements OnInit{
 
     this.carrelloService.decrementaQuantita(scarpaId, nomeScarpa, taglia, colore).subscribe({
 
-      next: (res) => {
+    next: (res) => {
+
+      if(res?.eliminato) {
+
         const index = this.carrello.findIndex(item =>
           item.scarpa.nome === nomeScarpa &&
           item.taglia === taglia &&
           item.colore === colore
         );
-  
-        if(res.eliminato && index > -1) 
-        {
-          this.carrello.splice(index, 1); 
-        } 
-        else if(res.item && index > -1) 
-        {
-          this.carrello[index].quantita = res.item.quantita; 
+
+        if(index > -1) {
+          this.carrello.splice(index, 1);
         }
 
-      },
+      } 
+      else if(res?.item) {
 
-      error: (err) => console.error("Errore decremento:", err)
+        const index = this.carrello.findIndex(item =>
+          item.scarpa.nome === res.item.prodotto &&
+          item.taglia === res.item.taglia &&
+          item.colore === res.item.colore
+        );
+
+        if(index > -1) {
+          this.carrello[index].quantita = res.item.quantita;
+        }
+
+      } 
+      else {
+        this.caricaCarrello();
+      }
+
+    },
+
+    error: (err) => console.error("Errore decremento:", err)
+
     });
-
+    
   }
-  
+
   svuotaCarrello(): void {
 
     this.carrelloService.svuotaCarrello().subscribe({

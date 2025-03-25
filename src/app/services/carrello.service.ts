@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Injector } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ import { of } from 'rxjs';
 
 export class CarrelloService {
 
-  constructor(private scarpeService: ScarpeService, private http: HttpClient, private authService: AuthService){}
+  constructor(private scarpeService: ScarpeService,private http: HttpClient,private injector: Injector) {}
 
   private carrello: {scarpa: {id:number}; quantita: number; taglia: string; colore: string;}[] = [];
 
@@ -59,6 +60,9 @@ export class CarrelloService {
 
   }
   
+  private get authService(): AuthService {
+    return this.injector.get(AuthService);
+  }
 
   setCostoSpedizione(costo: number): void{
     this.costoSpedizione = costo;
@@ -223,6 +227,10 @@ export class CarrelloService {
     }
 
   }
+
+  svuotaCarrelloFrontend(): void {
+    this.carrello = [];
+  }
   
   getCarrelloBackend(utenteId: string): Observable<any[]> {
     return this.http.get<any[]>(`http://localhost:8080/carrello/${utenteId}`);
@@ -315,13 +323,34 @@ export class CarrelloService {
   incrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): Observable<any> {
 
     return new Observable(observer => {
+  
+      if(!this.authService.isAuthenticated()) {
 
+        const index = this.carrello.findIndex(
+          item => item.scarpa.id === scarpaId && item.taglia === taglia && item.colore === colore
+        );
+  
+        if(index !== -1) {
+
+          this.carrello[index].quantita++;
+          localStorage.setItem('guest_cart', JSON.stringify(this.carrello));
+          observer.next({ item: this.carrello[index] });
+          observer.complete();
+
+        } 
+        else {
+          observer.error("Prodotto non trovato nel carrello guest");
+        }
+  
+        return;
+
+      }
+  
       this.getItemIdFromBackend(nomeScarpa, taglia, colore).subscribe({
 
         next: (itemId) => {
 
-          if(itemId !== null) 
-          {
+          if(itemId !== null) {
 
             this.incrementaQuantitaBackend(itemId).subscribe({
 
@@ -330,14 +359,13 @@ export class CarrelloService {
                 observer.complete();
               },
               error: (err) => observer.error(err)
-
+              
             });
 
           } 
           else {
             observer.error("Item non trovato per incremento");
           }
-
         }
 
       });
@@ -349,13 +377,39 @@ export class CarrelloService {
   decrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): Observable<any> {
 
     return new Observable(observer => {
+  
+      if(!this.authService.isAuthenticated()) {
 
+        const index = this.carrello.findIndex(
+          item => item.scarpa.id === scarpaId && item.taglia === taglia && item.colore === colore
+        );
+  
+        if(index !== -1) {
+
+          this.carrello[index].quantita--;
+  
+          if(this.carrello[index].quantita <= 0) {
+            this.carrello.splice(index, 1); 
+          }
+  
+          localStorage.setItem('guest_cart', JSON.stringify(this.carrello));
+          observer.next({ eliminato: true });
+          observer.complete();
+
+        } 
+        else {
+          observer.error("Prodotto non trovato nel carrello guest");
+        }
+  
+        return;
+
+      }
+  
       this.getItemIdFromBackend(nomeScarpa, taglia, colore).subscribe({
 
         next: (itemId) => {
 
-          if (itemId !== null) 
-          {
+          if(itemId !== null) {
 
             this.decrementaQuantitaBackend(itemId).subscribe({
 
@@ -363,7 +417,6 @@ export class CarrelloService {
                 observer.next(res); 
                 observer.complete();
               },
-
               error: (err) => observer.error(err)
 
             });
@@ -376,7 +429,7 @@ export class CarrelloService {
         }
 
       });
-
+  
     });
 
   }
@@ -413,55 +466,50 @@ export class CarrelloService {
   migraCarrelloGuestSuBackend(): void {
 
     const guestCart = localStorage.getItem('guest_cart');
-
+  
     if (!guestCart || !this.authService.isAuthenticated()) return;
   
-    const prodottiGuest = JSON.parse(guestCart);
-
-    const utenteId = this.authService.getUtenteId();
-
-    const secretKey = this.authService.getSecretKey();
-
-    const headers = new HttpHeaders({ 'Secret-Key': secretKey! });
+    const carrelloRaw = JSON.parse(guestCart);
   
-    this.http.get<any[]>(`http://localhost:8080/carrello/${utenteId}`, { headers }).subscribe({
-
-      next: (carrelloData) => {
-
-        const carrelloId = carrelloData[0]?.carrello?.id || carrelloData[0]?.carrelloId || null;
+    // Recupera i dati completi delle scarpe
+    this.scarpeService.getProdotti().subscribe(prodotti => {
   
-        if(!carrelloId) 
-        {
-          console.error("Carrello ID non trovato per migrazione!");
-          return;
+      const prodottiGuest = carrelloRaw.map((item: any) => {
+        const scarpaCompleta = prodotti.find(p => p.id === item.scarpa.id);
+  
+        return {
+          prodotto: scarpaCompleta?.nome || "N/A",
+          taglia: item.taglia,
+          colore: item.colore,
+          quantita: item.quantita,
+          prezzo: scarpaCompleta?.prezzo || 0
+        };
+      });
+  
+      const utenteId = this.authService.getUtenteId();
+      const secretKey = this.authService.getSecretKey();
+      const headers = new HttpHeaders({ 'Secret-Key': secretKey! });
+  
+      this.http.post(`http://localhost:8080/carrello/${utenteId}/migra`, prodottiGuest, { headers }).subscribe({
+  
+        next: () => {
+          console.log("✅ Prodotti guest migrati correttamente!");
+          localStorage.removeItem('guest_cart');
+          this.carrello = [];
+        },
+  
+        error: (err) => {
+          console.error("❌ Errore durante la migrazione:", err);
         }
   
-        prodottiGuest.forEach((item: any) => {
-
-          const body = {
-            prodotto: item.scarpa.nome || "N/A", 
-            taglia: item.taglia,
-            colore: item.colore,
-            quantita: item.quantita,
-            prezzo: 0 
-          };
+      });
   
-          this.http.post(`http://localhost:8080/carrello/${carrelloId}/aggiungi`, body, { headers }).subscribe({
-            next: () => console.log("Prodotto guest migrato"),
-            error: (err) => console.error("Errore nella migrazione:", err)
-          });
-
-        });
-  
-        localStorage.removeItem('guest_cart');
-        this.carrello = [];
-  
-      },
-
-      error: (err) => console.error("Errore nel recupero carrello per migrazione:", err)
-
     });
-
+  
   }
+  
+  
+  
+
   
 };
