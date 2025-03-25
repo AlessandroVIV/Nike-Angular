@@ -20,21 +20,37 @@ export class DettaglioScarpaComponent implements OnInit{
   ){}
 
   slides: string[] = ['Scritta 1', 'Scritta 2', 'Scritta 3'];
+
   currentIndex: number = 0;
+
   sliderTransform: string = 'translateX(0%)';
+
   intervalId: any;
+
   prodotti: IScarpa[] = [];
+
   tuttiProdotti: IScarpa[] = [];
+
   isForward: boolean = true;
+
   taglie: string[] = [];
+
   colori_disponibili: string[] = [];
+
   recensioni: string[] = [];
+
   tagliaSelezionata: string = '';  
+
   coloreSelezionato: string = '';
+
   boxDettagliVisibile: boolean = false;
+
   boxDettagliVisibileDesktop: boolean = false;
+
   erroreTaglia: boolean = false;
+
   erroreColore: boolean = false;
+
   immagineSelezionata: string = '';
 
   ngOnInit(): void{
@@ -80,18 +96,16 @@ export class DettaglioScarpaComponent implements OnInit{
 
     if(this.isForward){
 
-      if (this.currentIndex < this.slides.length - 1) 
-      {
+      if(this.currentIndex < this.slides.length - 1) {
         this.currentIndex++;
       } 
-      else 
-      {
+      else {
         this.isForward = false;
         this.currentIndex--;
       }
     } 
-    else 
-    {
+    else {
+
       if(this.currentIndex > 0) 
       {
         this.currentIndex--;
@@ -110,18 +124,20 @@ export class DettaglioScarpaComponent implements OnInit{
 
   aggiungiAlCarrello(): void{
 
-    if (this.scarpa && this.tagliaSelezionata && this.coloreSelezionato) 
-    {
+    if (this.scarpa && this.tagliaSelezionata && this.coloreSelezionato) {
+
       this.carrelloService.aggiungiAlCarrello(this.scarpa, this.tagliaSelezionata, this.coloreSelezionato);
       this.mostraBoxDettagli();
       this.mostraBoxDettagliDesktop();
       this.erroreTaglia = false;
       this.erroreColore = false;
+
     } 
-    else 
-    {
+    else {
+
       this.erroreTaglia = true;
       this.erroreColore = true;
+      
     }
 
   }

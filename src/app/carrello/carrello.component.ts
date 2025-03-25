@@ -60,15 +60,13 @@ export class CarrelloComponent implements OnInit{
 
     const sconto = this.carrelloService.applicaCodiceSconto(this.codiceInserito, totaleConSpedizione);
   
-    if(sconto > 0) 
-    {
+    if(sconto > 0) {
       this.totaleConSconto = totaleConSpedizione - sconto;
 
       if (input) input.style.borderColor = "green";
 
     } 
-    else 
-    {
+    else {
       this.totaleConSconto = null;
 
       if (input) input.style.borderColor = "red";
@@ -101,12 +99,10 @@ export class CarrelloComponent implements OnInit{
   
   aggiornaCostoSpedizione(): void{
 
-    if(this.isAuthenticated()) 
-    {
+    if(this.isAuthenticated()) {
       this.costoSpedizione = 0; 
     }
-    else 
-    {
+    else {
       this.costoSpedizione = parseFloat((Math.random() * (30 - 10) + 10).toFixed(0));
     }
 
@@ -143,21 +139,23 @@ export class CarrelloComponent implements OnInit{
   }
 
   incrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): void {
+
     this.carrelloService.incrementaQuantita(scarpaId, nomeScarpa, taglia, colore).subscribe({
       next: () => this.caricaCarrello(),
       error: (err) => console.error("Errore incremento:", err)
     });
+
   }
   
-  
   decrementaQuantita(scarpaId: number, nomeScarpa: string, taglia: string, colore: string): void {
+
     this.carrelloService.decrementaQuantita(scarpaId, nomeScarpa, taglia, colore).subscribe({
       next: () => this.caricaCarrello(),
       error: (err) => console.error("Errore decremento:", err)
     });
+
   }
   
-
   svuotaCarrello(): void {
 
     this.carrelloService.svuotaCarrello().subscribe({

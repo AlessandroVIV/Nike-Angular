@@ -13,7 +13,8 @@ import { OrderService } from '../services/ordini.service';
 
 export class PagamentoComponent implements OnInit {
 
-  constructor(private carrelloService: CarrelloService,  private router: Router, private authService: AuthService, private orderService: OrderService){}
+  constructor(private carrelloService: CarrelloService,  private router: Router, 
+    private authService: AuthService, private orderService: OrderService){}
 
   carrello: {scarpa: IScarpa; quantita: number; taglia: string; colore: string}[] = [];
 
@@ -151,17 +152,16 @@ export class PagamentoComponent implements OnInit {
   ngOnInit(): void {
 
     this.carrelloService.getDettagliCarrello().subscribe((dettagli) => {
+
       this.carrello = dettagli;
       this.carrelloService['carrello'] = dettagli; 
       this.costoSpedizione = this.carrelloService.getCostoSpedizione();
       this.calcolaTotaleConSpedizione();
+
     });
     
-
   }
   
-  
-
   calcolaTotaleConSpedizione(): void{
 
     this.totaleProdotti = this.carrello.reduce(
@@ -179,8 +179,7 @@ export class PagamentoComponent implements OnInit {
 
   aggiornaCostoSpedizione(): void{
 
-    if(this.isAuthenticated()) 
-    {
+    if(this.isAuthenticated()) {
       this.costoSpedizione = 0; 
     }
  
@@ -197,21 +196,16 @@ export class PagamentoComponent implements OnInit {
   }
 
   getNumeroArticoli(): number{
-
     return this.carrello.reduce((totale, item) => totale + item.quantita, 0);
-
   }
 
   calcolaCostoSpedizione(): number{
-
     return parseFloat((Math.random() * (30 - 10) + 10).toFixed(0));
-
   }
 
   getPrezzoTotale(): string {
     return `${this.carrelloService.getTotaleFinale().toFixed(2)}€`;
   }
-  
   
   getTotaleSenzaSpedizione(): number{
     return this.carrello.reduce((totale, item) => totale + item.scarpa.prezzo * item.quantita, 0);
@@ -226,55 +220,50 @@ export class PagamentoComponent implements OnInit {
   }
 
   mostraRitiro(): void{
+
     this.isRitiroVisible = true;
     this.isSpedizioneVisible = false;
     (document.querySelector("#ritiro") as HTMLElement).style.border = "1px solid black";
     (document.querySelector("#spedizione2") as HTMLElement).style.border = "1px solid rgba(0, 0, 0, 0.1)";
+
   }
 
   mostraSpedizione(): void{
+
     this.isSpedizioneVisible = true;
     this.isRitiroVisible = false;
     (document.querySelector("#ritiro") as HTMLElement).style.border = "1px solid rgba(0, 0, 0, 0.1)";
     (document.querySelector("#spedizione2") as HTMLElement).style.border = "1px solid black";
+
   }
 
   onFocus(input: string): void{
 
-    if(input === 'nome') 
-    {
+    if(input === 'nome') {
       this.isFocusedNome = true;
     } 
-    else if(input === 'cognome') 
-    {
+    else if(input === 'cognome') {
       this.isFocusedCognome = true;
     } 
-    else if(input === 'indirizzo') 
-    {
+    else if(input === 'indirizzo') {
       this.isFocusedIndirizzo = true;
     }
-    else if(input === 'ritiro')
-    {
+    else if(input === 'ritiro'){
       this.isFocusedRitiro = true;
     }
-    else if(input === 'Email')
-    {
+    else if(input === 'Email'){
       this.isFocusedEmail = true;
     }
-    else if(input === 'telefono')
-    {
+    else if(input === 'telefono'){
       this.isFocusedTelefono = true;
     }
-    else if(input === 'numeroCarta') 
-    {
+    else if(input === 'numeroCarta') {
       this.isFocusedNumeroCarta = true;
     }
-    else if(input === 'dataCarta') 
-    {
+    else if(input === 'dataCarta') {
       this.isFocusedDataCarta = true;
     }
-    else if(input === 'cvvCarta') 
-    {
+    else if(input === 'cvvCarta') {
       this.isFocusedCvvCarta = true;
     }
 
@@ -282,54 +271,45 @@ export class PagamentoComponent implements OnInit {
   
   onBlur(input: string): void{
 
-    if(input === 'nome')
-    {
+    if(input === 'nome') {
       this.isTouchedNome = true;
       this.isFocusedNome = false;
       this.nomeValido = this.scrittaTop2.trim().length >= 2 && this.nomeRegex.test(this.scrittaTop2);
     }
-    else if(input === 'cognome') 
-    {
+    else if(input === 'cognome') {
       this.isTouchedCognome = true;
       this.isFocusedCognome = false;
       this.cognomeValido = this.scrittaTop3.trim().length >= 2 && this.cognomeRegex.test(this.scrittaTop3);
     } 
-    else if(input === 'indirizzo') 
-    {
+    else if(input === 'indirizzo') {
       this.isTouchedIndirizzo = true;
       this.isFocusedIndirizzo = false;
       this.indirizzoValido = this.scrittaTop4.trim().length >= 5 && this.indirizzoRegex.test(this.scrittaTop4);
     } 
-    else if(input === 'Email') 
-    {
+    else if(input === 'Email') {
       this.isTouchedEmail = true;
       this.isFocusedEmail = false;
       this.emailValido = this.scrittaTop5.trim().length > 0 && this.emailRegex.test(this.scrittaTop5);
     } 
-    else if(input === 'telefono') 
-    {
+    else if(input === 'telefono') {
       this.isTouchedTelefono = true;
       this.isFocusedTelefono = false;
       this.telefonoValido = this.scrittaTop6.trim().length > 0 && this.telefonoRegex.test(this.scrittaTop6);
     }
-    else if(input === 'ritiro') 
-    {
+    else if(input === 'ritiro') {
       this.isFocusedRitiro = false;
     }
-    else if (input === 'numeroCarta') 
-    {
+    else if (input === 'numeroCarta') {
       this.isTouchedNumeroCarta = true;
       this.isFocusedNumeroCarta = false;
       this.numeroCartaValido = this.numeroCarta.trim().length >= 13 && this.numeroCartaRegex.test(this.numeroCarta);
     }
-    else if (input === 'dataCarta') 
-    {
+    else if (input === 'dataCarta') {
       this.isTouchedDataCarta = true;
       this.isFocusedDataCarta = false;
       this.dataCartaValida = this.dataCartaRegex.test(this.dataCarta);
     }
-    else if(input === 'cvvCarta') 
-    {
+    else if(input === 'cvvCarta') {
       this.isTouchedCvvCarta = true;
       this.isFocusedCvvCarta = false;
       this.cvvCartaValido = this.cvvCartaRegex.test(this.cvvCarta);
@@ -342,24 +322,24 @@ export class PagamentoComponent implements OnInit {
   }
 
   formCompilato(): void{
-
     this.isButtonActive = this.nomeValido && this.cognomeValido && this.indirizzoValido && this.emailValido && this.telefonoValido;
-    
   }
 
   onSalvaEContinua(): void{
 
-    if(this.isButtonActive) 
-    {
+    if(this.isButtonActive) {
+
       this.isFormCompilato = true; 
       this.isSpedizioneVisible = false;
       (document.querySelector("#titoloPagamento") as HTMLElement).style.color = "black"
+
     } 
-    else 
-    {
+    else {
+
       this.isFormCompilato = false; 
       this.isSpedizioneVisible = true;
       (document.querySelector("#titoloPagamento") as HTMLElement).style.color = "rgba(0, 0, 0, 0.1)"
+
     }
 
   }
@@ -367,9 +347,7 @@ export class PagamentoComponent implements OnInit {
   modificaForm(): void{
 
     this.isFormCompilato = false; 
-
     this.isSpedizioneVisible = true; 
-
     (document.querySelector("#titoloPagamento") as HTMLElement).style.color = "rgba(0, 0, 0, 0.1)"
     
   }
@@ -389,20 +367,23 @@ export class PagamentoComponent implements OnInit {
   confermaMetodo(metodo: string): void{
 
     this.immagineMetodoFinale = metodo === 'Carta di credito' ? 'img/credit-card.png' : metodo === 'PayPal' ? 'img/paypal2.png': 'img/google-pay.png'; 
-
     this.mostraSoloMetodoScelto = true;
 
   }
 
   modificaMetodo(): void{
+
     this.mostraSoloMetodoScelto = false; 
     this.mostraVerificaOrdine = false;; 
     (document.querySelector("#titoloVerifica") as HTMLElement).style.color = "rgba(0, 0, 0, 0.1)"
+
   }
 
   mostraVerificaSezione(): void{
+
     this.mostraVerificaOrdine = true; 
     (document.querySelector("#titoloVerifica") as HTMLElement).style.color = "black"
+
   }
 
   effettuaPagamento(): void {
@@ -431,5 +412,4 @@ export class PagamentoComponent implements OnInit {
     this.authService.logout();
   }
 
-  
 }

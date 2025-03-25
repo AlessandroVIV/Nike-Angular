@@ -84,7 +84,9 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
     });
 
     this.scarpeService.getProdotti().subscribe({
+
       next: (data) => {
+
         this.prodotti = data.map((scarpa) => ({
           ...scarpa,
           coloriDisponibili: Array.isArray(scarpa.coloriDisponibili) 
@@ -94,10 +96,14 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
       
         this.tuttiProdotti = [...this.prodotti];
         this.numeroRisultati = this.prodotti.length;
-        console.log("🔎 Prodotti caricati:", this.prodotti);
+        console.log("Prodotti caricati:", this.prodotti);
+
       },
+
       error: (err) => console.log(err),
+
       complete: () => console.log("Tutto funzionante"),
+
     });
     
   }
@@ -107,35 +113,32 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
   }
 
   startSlider(){
+
     this.intervalId = setInterval(() => {
       this.moveSlider();
     }, 3000);
+    
   }
 
   moveSlider(){
 
-    if (this.isForward)
-    {
+    if (this.isForward) {
 
-      if (this.currentIndex < this.slides.length - 1)
-      {
+      if (this.currentIndex < this.slides.length - 1) {
         this.currentIndex++;
       } 
-      else 
-      {
+      else {
         this.isForward = false;
         this.currentIndex--;
       }
-    } 
-    else 
-    {
 
-      if (this.currentIndex > 0)
-      {
+    } 
+    else {
+
+      if (this.currentIndex > 0) {
         this.currentIndex--;
       } 
-      else
-      {
+      else {
         this.isForward = true;
         this.currentIndex++;
       }
@@ -148,15 +151,14 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
   cercaScarpa(){
 
-    if(!this.CercaScarpaProdotti.trim())
-    {
+    if(!this.CercaScarpaProdotti.trim()) {
 
       this.prodotti = [...this.tuttiProdotti];
 
     } 
     else
     {
-    
+
       this.prodotti = this.tuttiProdotti.filter((prodotto) =>
         prodotto.nome.toLowerCase().includes(this.CercaScarpaProdotti.toLowerCase())
       );
@@ -165,17 +167,16 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
     this.numeroRisultati = this.prodotti.length;
 
-    if(this.numeroRisultati === 0)
-    {
+    if(this.numeroRisultati === 0){
+    
       document.getElementById("avviso").style.display = "block"
       document.getElementById("bordoTop").style.borderTop  = "none"
+
     }
-    else if(this.numeroRisultati === 1)
-    {
+    else if(this.numeroRisultati === 1) {
       document.getElementById("risultato").textContent = "risultato trovato"
     }
-    else
-    {
+    else{
       document.getElementById("risultato").textContent = "risultati trovati"
       document.getElementById("avviso").style.display = "none"
       document.getElementById("bordoTop").style.borderTop  = "solid 1px rgba(0, 0, 0, 0.1)"
@@ -242,12 +243,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
   
     this.numeroRisultati = this.prodotti.length;
   
-    if(this.numeroRisultati === 0) 
-    {
+    if(this.numeroRisultati === 0) {
       document.getElementById("avviso").style.display = "block";
     } 
-    else 
-    {
+    else {
       document.getElementById("avviso").style.display = "none";
     }
 
@@ -255,12 +254,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
   
   aggiornaFiltroGenere(genere: string, isChecked: boolean){
 
-    if(isChecked)
-    {
+    if(isChecked) {
       this.generiSelezionati.push(genere); 
     } 
-    else 
-    {
+    else {
       this.generiSelezionati = this.generiSelezionati.filter((g) => g !== genere); 
     }
 
@@ -270,12 +267,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
   aggiornaFiltroPrezzo(fascia: string, isChecked: boolean){
 
-    if(isChecked) 
-    {
+    if(isChecked) {
       this.fascePrezzoSelezionate.push(fascia); 
     } 
-    else 
-    {
+    else {
       this.fascePrezzoSelezionate = this.fascePrezzoSelezionate.filter((f) => f !== fascia); 
     }
 
@@ -285,12 +280,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
   aggiornaFiltroColore(colore: string, isChecked: boolean){
 
-    if (isChecked) 
-    {
+    if (isChecked) {
       this.coloriSelezionati.push(colore); 
     } 
-    else 
-    {
+    else {
       this.coloriSelezionati = this.coloriSelezionati.filter((c) => c !== colore); 
     }
 
@@ -300,12 +293,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
   aggiornaFiltroCategoria(categoria: string, isChecked: boolean){
 
-    if(isChecked) 
-    {
+    if(isChecked) {
       this.categorieSelezionate.push(categoria); 
     } 
-    else 
-    {
+    else {
       this.categorieSelezionate = this.categorieSelezionate.filter((c) => c !== categoria); 
     }
 

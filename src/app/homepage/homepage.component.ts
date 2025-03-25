@@ -236,11 +236,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
       },
       
       error: (err) => console.log(err),
-      complete: () => console.log("Tutto funzionante"),
 
+      complete: () => console.log("Tutto funzionante"),
 
     });
 
+  }
+
+  ngOnDestroy(){
+    clearInterval(this.intervalId);
   }
 
   cercaBestSeller(){
@@ -261,17 +265,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   prodottiFiltratiCategoria(){
 
-    if(!this.CategoriaSelezionata)
-    {
+    if(!this.CategoriaSelezionata){
       return this.prodotti; 
     }
 
     return this.prodotti.filter(prodotto => prodotto.categoria === this.CategoriaSelezionata);
 
-  }
-
-  ngOnDestroy(){
-    clearInterval(this.intervalId);
   }
 
   startSlider(){
@@ -286,28 +285,31 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   moveSlider(){
     
-    if(this.isForward)
-      {
-        if (this.currentIndex < this.slides.length - 1)
-        {
+    if(this.isForward){
+
+        if(this.currentIndex < this.slides.length - 1) {
           this.currentIndex++;
         } 
-        else 
-        {
+        else {
+
           this.isForward = false;
           this.currentIndex--; 
+
         }
+
       } 
-      else 
-      {
-        if (this.currentIndex > 0) {
+      else {
+
+        if(this.currentIndex > 0){
           this.currentIndex--;
         } 
-        else 
-        {
+        else {
+
           this.isForward = true;
           this.currentIndex++; 
+
         }
+        
       }
 
 

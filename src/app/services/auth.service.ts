@@ -102,15 +102,10 @@ export class AuthService {
   logout(): void {
 
     localStorage.removeItem(this.TOKEN_KEY);
-
     localStorage.removeItem('utente_id');
-
     const carrelloService = this.injector.get(CarrelloService);
-    
     carrelloService.svuotaCarrelloFrontend();
-
     this.injector.get(CarrelloService).resettaCodiceSconto();
-
     this.router.navigate(['/']);
 
   } 

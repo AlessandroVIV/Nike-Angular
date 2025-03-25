@@ -13,7 +13,9 @@ export class OrderService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getOrdiniUtente(): Observable<any[]> {
+
     const utenteId = this.authService.getUtenteId();
+    
     const secretKey = this.authService.getSecretKey();
 
     const headers = new HttpHeaders({

@@ -30,30 +30,40 @@ export class CarrelloService {
 
   caricaCarrello(): void {
 
-    if (this.authService.isAuthenticated()) {
+    if(this.authService.isAuthenticated()) {
   
       this.getDettagliCarrello().subscribe({
+
         next: (dettagli) => {
+
           this.carrello = dettagli;
   
           const totale = this.carrello.reduce((acc, item) => acc + item.scarpa.prezzo * item.quantita, 0);
   
-          if (this.codiceSconto) {
+          if(this.codiceSconto) {
             this.sconto = totale * 0.1;
             this.salvaDatiPromo(totale - this.sconto);
           }
+
         },
+
         error: (err) => {
           console.error("Errore nel caricamento dettagli carrello:", err);
         }
+
       });
   
-    } else {
+    } 
+    else {
+
       const storedCart = localStorage.getItem('guest_cart');
-      if (storedCart) {
+
+      if(storedCart) {
         this.carrello = JSON.parse(storedCart);
       }
+
     }
+
   }
   
   private get authService(): AuthService {
@@ -70,12 +80,10 @@ export class CarrelloService {
 
   calcolaCostoSpedizione(authenticated: boolean): void{
 
-    if(authenticated) 
-    {
+    if(authenticated) {
       this.costoSpedizione = 0;
     } 
-    else
-    {
+    else{
       this.costoSpedizione = parseFloat((Math.random() * (30 - 10) + 10).toFixed(0));
     }
 
@@ -88,11 +96,14 @@ export class CarrelloService {
       this.sconto = totale * 0.1;
       this.codiceSconto = codice;
       this.salvaDatiPromo(totale - this.sconto);
+
     } 
     else {
+
       this.sconto = 0;
       this.codiceSconto = null;
       this.salvaDatiPromo(totale); 
+
     }
   
     return this.sconto;
@@ -123,7 +134,6 @@ export class CarrelloService {
     return parseFloat((totale - sconto).toFixed(2));
   }
   
-
   resettaCodiceSconto(): void {
 
     this.codiceSconto = null;
@@ -241,7 +251,8 @@ export class CarrelloService {
   
       return this.http.delete(`http://localhost:8080/carrello/${utenteId}/svuota`, { headers });
   
-    } else {
+    } 
+    else {
   
       this.carrello = [];
       localStorage.removeItem('guest_cart');
@@ -327,6 +338,7 @@ export class CarrelloService {
           }).filter(item => item !== null);
   
           return dettagli;
+
         })
         
       );
@@ -478,6 +490,7 @@ export class CarrelloService {
         );
   
         console.log("Items ricevuti:", items);
+
         return matchingItem ? matchingItem.id : null;
 
       })
@@ -519,10 +532,12 @@ export class CarrelloService {
       this.http.post(`http://localhost:8080/carrello/${utenteId}/migra`, prodottiGuest, { headers }).subscribe({
   
         next: () => {
+
           console.log("Prodotti guest migrati correttamente!");
           localStorage.removeItem('guest_cart');
           this.carrello = [];
           this.caricaCarrello(); 
+
         },
   
         error: (err) => {
@@ -536,12 +551,15 @@ export class CarrelloService {
   }
   
   checkout(): Observable<any> {
+
     const utenteId = this.authService.getUtenteId();
+
     const secretKey = this.authService.getSecretKey();
   
     const headers = new HttpHeaders({ 'Secret-Key': secretKey! });
   
     return this.getDettagliCarrello().pipe( 
+
       switchMap((dettagliCompleti) => {
   
         const scontoTotale = this.getSconto(); 
@@ -567,17 +585,16 @@ export class CarrelloService {
         
         
         localStorage.removeItem('totaleUltimoOrdine');
+
         this.resettaCodiceSconto();
   
-        return this.http.post(
-          `http://localhost:8080/carrello/${utenteId}/checkout`,
-          prodottiConTotale,
-          { headers }
-        ).pipe(tap((res) => console.log("📦 Checkout response:", res)));
+        return this.http.post(`http://localhost:8080/carrello/${utenteId}/checkout`, prodottiConTotale,{ headers }).pipe
+        (tap((res) => console.log("📦 Checkout response:", res)));
+
       })
+
     );
+
   }
-  
-  
   
 };

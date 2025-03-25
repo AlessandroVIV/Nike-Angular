@@ -63,7 +63,7 @@ export class RegisterComponent {
 
   isFormValid(): boolean {
 
-    return (
+    return(
       this.NomeUtenteRegex.test(this.NomeUtente.trim()) &&
       this.passwordRegex.test(this.password.trim()) &&
       this.emailRegex.test(this.email.trim()) &&
@@ -73,7 +73,6 @@ export class RegisterComponent {
 
   }
   
-
   get formValido(): boolean{
     return this.nomeUtenteValido && this.passwordValida;
   }
@@ -105,29 +104,34 @@ export class RegisterComponent {
 
   }
 
-onBlur(input: string): void {
-  if (input === 'nomeUtente') {
+  onBlur(input: string): void {
+
+    if (input === 'nomeUtente') {
     this.isTouchedNomeUtente = true;
     this.isFocusedNomeUtente = false;
     this.nomeUtenteValido = this.NomeUtenteRegex.test(this.NomeUtente.trim());
-  } else if (input === 'password') {
+    } 
+    else if (input === 'password') {
     this.isTouchedPassword = true;
     this.isFocusedPassword = false;
     this.passwordValida = this.passwordRegex.test(this.password.trim());
-  } else if (input === 'email') {
+    } 
+    else if (input === 'email') {
     this.isTouchedEmail = true;
     this.isFocusedEmail = false;
     this.emailValida = this.emailRegex.test(this.email.trim());
-  } else if (input === 'indirizzo') {
+    } 
+    else if (input === 'indirizzo') {
     this.isTouchedIndirizzo = true;
     this.isFocusedIndirizzo = false;
     this.indirizzoValido = this.indirizzoRegex.test(this.indirizzo.trim());
-  } else if (input === 'telefono') {
+    } 
+    else if (input === 'telefono') {
     this.isTouchedTelefono = true;
     this.isFocusedTelefono = false;
     this.telefonoValido = this.telefonoRegex.test(this.telefono.trim());
-  }
-}
+    }
 
+  }
 
 }
