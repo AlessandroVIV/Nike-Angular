@@ -50,45 +50,32 @@
 <div id="scarpeOrdinate">
 
     <h1 class="centrato">Ordini Effettuati</h1>
-
-    <ul *ngIf="ordini.length > 0">
-
-        <li *ngFor="let ordine of ordini">
-
-            <p id="data">Ordine effettuato il {{ ordine.data | date:'d MMMM' }} alle {{ ordine.data | date:'HH:mm' }}</p>
-
-            <div class="infoBase">
-
-                <img [src]="ordine.immagine">
-
-                <div class="flex">
-
-                    <p><strong>Prodotto:</strong> {{ordine.prodotto}}</p>
   
-                    <p><strong>Taglia:</strong> {{ordine.taglia}} </p>
+    <div class="contenitoreOrdini" *ngIf="ordini.length > 0">
   
-                    <p><strong>Colore:</strong> {{ordine.colore}}</p>
-
-                    <p><strong>Quantità:</strong> {{ordine.quantita || 1}}</p> 
-
-                    <p><strong>Prezzo:</strong> {{prezzoTotaleUltimoOrdine | currency:'EUR'}}</p>
-
-                </div>
-
-            </div>
-
-        </li>
-
-    </ul>
-
-    <div id="vaiCatalogo" class="centrato" *ngIf="ordini.length === 0">
-
-        <p>Non sono stati effettuati ordini.</p>
-
-        <p class="fontAumentato">Rimediamo subito!</p>
-
-        <p><a [routerLink]="['/prodotti']">Vai al catalogo</a></p>
-
+      <div class="ordineFlexCard" *ngFor="let ordine of ordini">
+        <p class="dataOrdine">Ordine effettuato il {{ ordine.dataOrdine | date:'d MMMM' }} alle {{ ordine.dataOrdine | date:'HH:mm' }}</p>
+  
+        <div class="rigaContenuto">
+          <img [src]="ordine.immagineUrl || 'assets/img/default.png'" alt="Prodotto">
+          <div class="dettagliFlex">
+            <p><strong>Prodotto:</strong> {{ordine.prodotto}}</p>
+            <p><strong>Taglia:</strong> {{ordine.taglia}}</p>
+            <p><strong>Colore:</strong> {{ordine.colore}}</p>
+            <p><strong>Quantità:</strong> {{ordine.quantita || 1}}</p>
+            <p><strong>Prezzo:</strong> {{ ordine.prezzoTotale | currency:'EUR' }}</p>
+          </div>
+        </div>
+      </div>
+  
     </div>
-
+  
+    <div id="vaiCatalogo" class="centrato" *ngIf="ordini.length === 0">
+      <p>Non sono stati effettuati ordini.</p>
+      <p class="fontAumentato">Rimediamo subito!</p>
+      <p><a [routerLink]="['/prodotti']">Vai al catalogo</a></p>
+    </div>
+  
 </div>
+  
+  

@@ -552,45 +552,67 @@ export class CarrelloService {
   
   checkout(): Observable<any> {
 
+    if(!this.authService.isAuthenticated()) {
+      
+      const dettagliGuest = this.carrello.map(item => ({
+        prodotto: item.scarpa.nome,
+        taglia: item.taglia,
+        colore: item.colore,
+        quantita: item.quantita,
+        prezzoUnitario: item.scarpa.prezzo,
+        prezzoTotale: item.scarpa.prezzo * item.quantita,
+        immagineUrl: item.scarpa.immagini[0]?.url || ''
+      }));
+  
+      localStorage.setItem('guest_checkout_pending', JSON.stringify(dettagliGuest));
+
+      return of({ guestCheckout: true });
+
+    }
+
     const utenteId = this.authService.getUtenteId();
 
     const secretKey = this.authService.getSecretKey();
   
     const headers = new HttpHeaders({ 'Secret-Key': secretKey! });
   
-    return this.getDettagliCarrello().pipe( 
+    return this.getDettagliCarrello().pipe(
 
       switchMap((dettagliCompleti) => {
   
         const scontoTotale = this.getSconto(); 
-
-        const totaleProdotti = dettagliCompleti.reduce((tot, item) => tot + item.scarpa.prezzo * item.quantita, 0);
-        
+  
+        const totaleProdotti = dettagliCompleti.reduce(
+          (tot, item) => tot + item.scarpa.prezzo * item.quantita, 
+          0
+        );
+  
         const prodottiConTotale = dettagliCompleti.map(item => {
 
           const totaleItem = item.scarpa.prezzo * item.quantita;
           const scontoProporzionale = (totaleItem / totaleProdotti) * scontoTotale;
           const prezzoTotaleScontato = totaleItem - scontoProporzionale;
-        
+  
           return {
             prodotto: item.scarpa.nome,
             taglia: item.taglia,
             colore: item.colore,
             quantita: item.quantita,
-            prezzoUnitario: parseFloat(item.scarpa.prezzo.toFixed(2)), 
-            prezzoTotale: parseFloat(prezzoTotaleScontato.toFixed(2))
+            prezzoUnitario: parseFloat(item.scarpa.prezzo.toFixed(2)),
+            prezzoTotale: parseFloat(prezzoTotaleScontato.toFixed(2)),
+            immagineUrl: item.scarpa.immagini[0]?.url || ''
           };
-          
-        });
-        
-        
-        localStorage.removeItem('totaleUltimoOrdine');
 
+        });
+  
+        localStorage.removeItem('totaleUltimoOrdine');
+        
         this.resettaCodiceSconto();
   
-        return this.http.post(`http://localhost:8080/carrello/${utenteId}/checkout`, prodottiConTotale,{ headers }).pipe
-        (tap((res) => console.log("📦 Checkout response:", res)));
-
+        return this.http.post(`http://localhost:8080/carrello/${utenteId}/checkout`, prodottiConTotale, { headers }).pipe(
+          tap((res) => console.log("Checkout response:", res))
+        );
+  
       })
 
     );

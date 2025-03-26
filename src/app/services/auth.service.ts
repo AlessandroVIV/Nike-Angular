@@ -46,7 +46,7 @@ export class AuthService {
 
   }
   
-  login(NomeUtente: string, password: string): Promise<boolean>{
+  login(NomeUtente: string, password: string): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
   
@@ -57,34 +57,64 @@ export class AuthService {
         next: (response) => {
   
           if(response.secretKey) {
-
+  
             localStorage.setItem(this.TOKEN_KEY, response.secretKey);
+
             localStorage.setItem('utente_id', response.id.toString());
   
             const carrelloService = this.injector.get(CarrelloService);
+  
             carrelloService.migraCarrelloGuestSuBackend();
   
-            this.router.navigate(['/area-riservata']);
-            resolve(true);
+            const guestCheckout = localStorage.getItem('guest_checkout_pending');
+  
+            if(guestCheckout) {
+  
+              const ordine = JSON.parse(guestCheckout);
+  
+              const headers = {
+                'Secret-Key': response.secretKey
+              };
+  
+              this.http.post(`http://localhost:8080/carrello/${response.id}/checkout`, ordine, { headers }).subscribe({
 
+                next: () => {
+                  console.log("Checkout guest completato dopo il login ");
+                  localStorage.removeItem('guest_checkout_pending');
+                  this.router.navigate(['/area-riservata']); 
+                  resolve(true);
+                },
+
+                error: (err) => {
+                  console.error("Errore durante il salvataggio ordine guest:", err);
+                  this.router.navigate(['/area-riservata']); 
+                  resolve(true);
+                }
+
+              });
+  
+            } 
+            else {
+              this.router.navigate(['/area-riservata']);
+              resolve(true);
+            }
+  
           } 
-          else{
+          else {
             resolve(false);
           }
-
+  
         },
   
         error: (err) => {
-
           console.error('Errore nel login:', err);
           reject(false);
-
         }
   
       });
   
     });
-
+    
   }
   
   isAuthenticated(): boolean {

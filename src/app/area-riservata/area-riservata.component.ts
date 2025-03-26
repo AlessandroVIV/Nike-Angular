@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CarrelloService } from '../services/carrello.service';
+import { OrderService } from '../services/ordini.service';
 
 @Component({
   selector: 'app-area-riservata',
@@ -10,7 +11,7 @@ import { CarrelloService } from '../services/carrello.service';
 
 export class AreaRiservataComponent implements OnInit {
 
-  constructor(private authService: AuthService, private carrelloService: CarrelloService){}
+  constructor(private authService: AuthService, private carrelloService: CarrelloService, private orderService: OrderService){}
 
   ordini: {prodotto: string; taglia: string; colore: string; quantita: number; immagine: string; data: Date}[] = [];
 
@@ -20,114 +21,38 @@ export class AreaRiservataComponent implements OnInit {
 
   volume: number = 0.1;
 
-  prezzoTotaleUltimoOrdine: number = 0;
+  ngOnInit(): void {
 
-  ngOnInit(): void{
-
-    this.caricaOrdiniDalLocalStorage();
-
+    this.caricaOrdiniUtente();
+  
     const audioStarted = localStorage.getItem('audioStarted');
-
-    if(audioStarted === 'true') 
-    {
+    if (audioStarted === 'true') {
       this.playAudio();
     }
-
-    const totale = localStorage.getItem('totaleUltimoOrdine');
-    this.prezzoTotaleUltimoOrdine = totale ? parseFloat(totale) : 0;
-
+    
   }
+  
+  caricaOrdiniUtente(): void {
 
-  caricaOrdiniDalLocalStorage(): void{
+    this.orderService.getOrdiniUtente().subscribe({
 
-    const ordiniSalvati = localStorage.getItem('ordini');
+      next: (ordiniDalBackend) => {
 
-    if(ordiniSalvati) 
-      
-    {
-
-      this.ordini = JSON.parse(ordiniSalvati).map((ordine: any) => ({
-        ...ordine,
-        data: new Date(ordine.data),
-      }));
-
-      this.sincronizzaQuantitaConCarrello();
-
-    } 
-    else 
-    {
-      this.sincronizzaConCarrello();
-    }
-
-  }
-
-  sincronizzaQuantitaConCarrello(): void{
-
-    this.carrelloService.getDettagliCarrello().subscribe({
-
-      next: (carrelloDettagli) => {
-      
-        this.ordini.forEach((ordine, index) => {
-          const corrispondenteCarrello = carrelloDettagli.find(item => 
-            item.scarpa.nome === ordine.prodotto && 
-            item.taglia === ordine.taglia &&
-            item.colore === ordine.colore
-          );
-
-          if(corrispondenteCarrello) 
-          {
-            this.ordini[index].quantita = corrispondenteCarrello.quantita;
-          }
-
-        });
-
-      
-        this.salvaOrdiniNelLocalStorage();
+        this.ordini = ordiniDalBackend.map((ordine: any) => ({
+          ...ordine,
+          dataOrdine: new Date(ordine.dataOrdine)
+        }));
 
       },
 
-      error: (err) => console.log(err)
+      error: (err) => {
+        console.error("Errore nel recupero ordini:", err);
+      }
 
     });
 
   }
 
-  sincronizzaConCarrello(): void{
-
-    this.carrelloService.getDettagliCarrello().subscribe({
-
-      next: (carrelloDettagli) => {
-
-        const nuoviOrdini = carrelloDettagli.map(item => {
-          
-          return{
-            prodotto: item.scarpa.nome,
-            taglia: item.taglia,
-            colore: item.colore,
-            quantita: item.quantita,
-            immagine: (Array.isArray(item.scarpa.immagini) && item.scarpa.immagini.length > 0) 
-              ? item.scarpa.immagini[0].url 
-              : 'assets/img/default.png',
-            data: new Date()
-          };
-
-        });
-  
-        this.ordini = [...this.ordini, ...nuoviOrdini];
-  
-        this.salvaOrdiniNelLocalStorage();
-
-      },
-
-      error: (err) => console.log(err)
-    });
-
-  }
-  
-  salvaOrdiniNelLocalStorage(): void{
-    localStorage.setItem('ordini', JSON.stringify(this.ordini));
-  }
-  
   playAudio(): void{
 
     const audio = this.audioRef.nativeElement;
@@ -153,9 +78,8 @@ export class AreaRiservataComponent implements OnInit {
     return this.authService.isAuthenticated();
   }
 
-  logout(): void{
+  logout(): void {
     this.authService.logout();
-    localStorage.removeItem('ordini');
   }
 
 }
