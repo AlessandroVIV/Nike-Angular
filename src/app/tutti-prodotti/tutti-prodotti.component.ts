@@ -87,15 +87,10 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
 
       next: (data) => {
 
-        this.prodotti = data.map((scarpa) => ({
-          ...scarpa,
-          coloriDisponibili: Array.isArray(scarpa.coloriDisponibili) 
-            ? scarpa.coloriDisponibili.map((c: any) => c.colore) 
-            : [] 
-        }));
-      
-        this.tuttiProdotti = [...this.prodotti];
+        this.prodotti = data;
+        this.tuttiProdotti = [...data];
         this.numeroRisultati = this.prodotti.length;
+
         console.log("Prodotti caricati:", this.prodotti);
 
       },
@@ -223,16 +218,14 @@ export class TuttiProdottiComponent implements OnInit, OnDestroy {
         : true;
   
         const corrispondeColore = this.coloriSelezionati.length > 0
-        ? this.coloriSelezionati.some((coloreSelezionato) =>
-            prodotto.coloriDisponibili.some((coloreProdotto) => {
-              const nomeColore = coloreProdotto.colore; 
-              const coloriSeparati = nomeColore.split('/'); 
-              return coloriSeparati.includes(coloreSelezionato);
-            })
-          )
+        ? prodotto.coloriDisponibili.some((c) => {
+            const nomeColore = c.colore;
+            if (!nomeColore) return false;
+            const separati = nomeColore.split('/');
+            return separati.some(col => this.coloriSelezionati.includes(col));
+          })
         : true;
       
-  
       const corrispondeCategoria = this.categorieSelezionate.length > 0
         ? this.categorieSelezionate.includes(prodotto.categoria)
         : true;
