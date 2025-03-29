@@ -79,7 +79,7 @@ export class AuthService {
               this.http.post(`http://localhost:8080/carrello/${response.id}/checkout`, ordine, { headers }).subscribe({
 
                 next: () => {
-                  console.log("Checkout guest completato dopo il login ");
+                  console.log("Checkout guest completato dopo il login");
                   localStorage.removeItem('guest_checkout_pending');
                   this.router.navigate(['/area-riservata']); 
                   resolve(true);
