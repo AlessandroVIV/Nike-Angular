@@ -124,7 +124,7 @@ export class DettaglioScarpaComponent implements OnInit{
 
   aggiungiAlCarrello(): void{
 
-    if (this.scarpa && this.tagliaSelezionata && this.coloreSelezionato) {
+    if(this.scarpa && this.tagliaSelezionata && this.coloreSelezionato) {
 
       this.carrelloService.aggiungiAlCarrello(this.scarpa, this.tagliaSelezionata, this.coloreSelezionato);
       this.mostraBoxDettagli();
