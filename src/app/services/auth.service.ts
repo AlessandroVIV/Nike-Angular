@@ -52,18 +52,24 @@ export class AuthService {
   
       const loginUser = { username: NomeUtente, password };
   
-      this.http.post<{ secretKey: string, id: number }>(`${this.USERS_URL}/login`, loginUser).subscribe({
+      this.http.post<{secretKey: string, id: number, email: string, telefono: string, indirizzo: string}>(`${this.USERS_URL}/login`, loginUser).subscribe({
   
         next: (response) => {
-  
+
           if(response.secretKey) {
   
             localStorage.setItem(this.TOKEN_KEY, response.secretKey);
 
             localStorage.setItem('utente_id', response.id.toString());
   
-            const carrelloService = this.injector.get(CarrelloService);
+            localStorage.setItem('utente_info', JSON.stringify({
+              email: response.email,
+              telefono: response.telefono,
+              indirizzo: response.indirizzo
+            }));
   
+            const carrelloService = this.injector.get(CarrelloService);
+
             carrelloService.migraCarrelloGuestSuBackend();
   
             const guestCheckout = localStorage.getItem('guest_checkout_pending');
@@ -81,17 +87,18 @@ export class AuthService {
                 next: () => {
                   console.log("Checkout guest completato dopo il login");
                   localStorage.removeItem('guest_checkout_pending');
-                  this.router.navigate(['/area-riservata']); 
+                  this.router.navigate(['/area-riservata']);
                   resolve(true);
                 },
 
                 error: (err) => {
                   console.error("Errore durante il salvataggio ordine guest:", err);
-                  this.router.navigate(['/area-riservata']); 
+                  this.router.navigate(['/area-riservata']);
                   resolve(true);
                 }
 
               });
+
   
             } 
             else {
@@ -114,7 +121,7 @@ export class AuthService {
       });
   
     });
-    
+  
   }
   
   isAuthenticated(): boolean {
@@ -127,6 +134,11 @@ export class AuthService {
 
   getUtenteId(): string | null {
     return localStorage.getItem('utente_id');
+  }
+
+  getUtenteInfo(): { email: string, telefono: string, indirizzo: string } | null {
+    const utenteInfo = localStorage.getItem('utente_info');
+    return utenteInfo ? JSON.parse(utenteInfo) : null;
   }
   
   logout(): void {

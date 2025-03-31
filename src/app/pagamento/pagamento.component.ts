@@ -154,12 +154,32 @@ export class PagamentoComponent implements OnInit {
     this.carrelloService.getDettagliCarrello().subscribe((dettagli) => {
 
       this.carrello = dettagli;
-      this.carrelloService['carrello'] = dettagli; 
+      this.carrelloService['carrello'] = dettagli;
       this.costoSpedizione = this.carrelloService.getCostoSpedizione();
       this.calcolaTotaleConSpedizione();
 
     });
+
+    if(this.authService.isAuthenticated()) {
+
+      const utente = this.authService.getUtenteInfo();
     
+      if(utente) {
+
+        this.scrittaTop5 = utente.email || '';
+        this.scrittaTop6 = utente.telefono || '';
+        this.scrittaTop4 = utente.indirizzo || '';
+
+        this.emailValido = this.emailRegex.test(this.scrittaTop5);
+        this.telefonoValido = this.telefonoRegex.test(this.scrittaTop6);
+        this.indirizzoValido = this.indirizzoRegex.test(this.scrittaTop4);
+
+      }
+
+      console.log('Utente loggato:', utente);
+
+    }
+
   }
   
   calcolaTotaleConSpedizione(): void{

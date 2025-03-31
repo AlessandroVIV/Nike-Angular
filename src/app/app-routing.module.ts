@@ -11,6 +11,7 @@ import { RegisterComponent } from './registrazione/registrazione.component';
 import { LoginComponent } from './login/login.component';
 import { AreaRiservataComponent } from './area-riservata/area-riservata.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
 
 const routes: Routes = [
 
@@ -20,8 +21,8 @@ const routes: Routes = [
   { path: 'carrello', component: CarrelloComponent},
   { path: 'pagamento', component: PagamentoComponent},
   { path: 'ringraziamenti', component: RingraziamentiComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
   { path: 'area-riservata', component: AreaRiservataComponent, canActivate: [AuthGuard]},
   { path: '**', component: NotFoundComponent}
   
